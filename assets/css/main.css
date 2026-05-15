@@ -870,6 +870,28 @@ hr.ornament {
   border-bottom: 1px solid var(--ink);
   align-items: start;
 }
+.stop-image {
+  margin: 0 0 18px;
+}
+.stop-image img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  filter: grayscale(0.3) contrast(1.03);
+  display: block;
+  border-bottom: 1px solid var(--ink);
+}
+.stop-image figcaption {
+  display: none;
+}
+:root[data-theme="dark"] .stop-image img {
+  filter: grayscale(0.3) contrast(1.03) brightness(0.82);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .stop-image img {
+    filter: grayscale(0.3) contrast(1.03) brightness(0.82);
+  }
+}
 .stop:last-child { border-bottom: none; }
 .stop-num {
   font-family: var(--font-display);
