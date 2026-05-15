@@ -462,6 +462,100 @@ hr.ornament {
 }
 .card:hover .card-img { filter: grayscale(0) contrast(1); }
 
+/* Flag thumbnails for the atlas — preserve full design, neutral matte background */
+.card-img.card-flag {
+  object-fit: contain;
+  background: #efeeec;
+  padding: 28px 24px;
+  filter: none;
+  border-bottom: 1px solid var(--ink);
+}
+.card:hover .card-img.card-flag {
+  background: #e6e5e2;
+  filter: none;
+}
+
+/* =====  3D Globe section  ===== */
+.globe-wrap {
+  position: relative;
+  margin: 40px 0 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: #f6f5f3;
+  overflow: hidden;
+}
+.globe-canvas {
+  width: 100%;
+  height: 640px;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+.globe-canvas:active { cursor: grabbing; }
+.globe-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--ink);
+  color: var(--canvas);
+  padding: 6px 10px;
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transform: translate(-50%, calc(-100% - 12px));
+  white-space: nowrap;
+  z-index: 4;
+}
+.globe-tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -5px;
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--ink);
+  transform: translateX(-50%);
+}
+.globe-legend {
+  position: absolute;
+  bottom: 0; left: 0;
+  padding: 18px 22px;
+  background: var(--canvas);
+  border-top: 1px solid var(--ink);
+  border-right: 1px solid var(--ink);
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 3;
+}
+.globe-legend-eyebrow {
+  color: var(--ink-soft);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  margin-bottom: 10px;
+}
+.globe-legend ul { list-style: none; padding: 0; margin: 0 0 10px; }
+.globe-legend li { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.globe-legend .dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+}
+.globe-legend .dot-on  { background: var(--ink); }
+.globe-legend .dot-off { background: transparent; }
+.globe-legend-note {
+  color: var(--ink-soft);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  margin: 0;
+}
+@media (max-width: 700px) {
+  .globe-canvas { height: 460px; }
+  .globe-legend { padding: 12px 14px; font-size: 10px; }
+}
+
 /* =====  Table of Contents  ===== */
 .toc {
   list-style: none;

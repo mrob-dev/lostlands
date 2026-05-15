@@ -2,33 +2,41 @@
 
 A guidebook to countries that no longer exist.
 
-Volume I is **Prussia** (1525–1947): a fourteen-chapter readable history, a twenty-six-stop travel guide, four driving routes, and a mythbusters page, written as long-form editorial prose for the curious traveller.
+**All twelve volumes are now available** (full chapters, travel guide, driving routes, mythbusters).
+
+## The library
+
+| Vol | Title | Years | Chapters |
+| :- | :- | :- | :- |
+| I | Prussia | 1525 – 1947 | 14 |
+| II | The Ottoman Empire | 1299 – 1922 | 10 |
+| III | East Germany | 1949 – 1990 | 8 |
+| IV | Yugoslavia | 1918 – 2003 | 10 |
+| V | Persia | 550 BC – 1979 AD | 10 |
+| VI | The Soviet Union | 1922 – 1991 | 10 |
+| VII | The Inca Empire | 1438 – 1572 | 10 |
+| VIII | The Congo Free State | 1885 – 1908 | 8 |
+| IX | The Roman Empire | 27 BC – 1453 AD | 10 |
+| X | The Caliphate of Córdoba | 929 – 1031 | 9 |
+| XI | Green Ukraine | 1917 – 1922 | 6 |
+| XII | The Kingdom of Jerusalem | 1099 – 1291 | 10 |
+
+Total: **104 chapters across twelve volumes**.
 
 ## What's here
 
 ```
-index.html                    Lost Lands homepage
-prussia/
-  index.html                  Volume cover + table of contents
-  chapters/01-origins.html    The Pagans by the Amber Sea
-  chapters/02-teutonic-order.html
-  chapters/03-duchy.html
-  chapters/04-brandenburg-prussia.html
-  chapters/05-kingdom.html
-  chapters/06-frederick-the-great.html
-  chapters/07-napoleonic.html
-  chapters/08-bismarck.html
-  chapters/09-empire.html
-  chapters/10-collapse.html
-  chapters/11-weimar.html
-  chapters/12-third-reich.html
-  chapters/13-abolition.html
-  chapters/14-legacy.html
-  travel.html                 Twenty-six places, three modern countries
-  routes.html                 Four driving routes
-  mythbusters.html            Eleven misconceptions, politely corrected
+index.html                    Lost Lands homepage (with three.js globe)
 assets/css/main.css           Cinematic editorial design system
 assets/js/main.js             Scroll progress + reveal-on-scroll
+assets/js/globe.js            three.js low-poly globe with markers
+
+<volume>/                     One directory per volume
+  index.html                  Cover, foreword, table of contents
+  chapters/01-…html …         Long-form chapters
+  travel.html                 Travel guide (12-20 stops)
+  routes.html                 Driving/transport routes
+  mythbusters.html            Misconceptions corrected
 ```
 
 ## Local preview
@@ -40,21 +48,15 @@ python3 -m http.server 8080
 # then visit http://localhost:8080
 ```
 
+The three.js globe loads from `cdn.jsdelivr.net` via an import map and requires an internet connection. Imagery is served from Wikimedia Commons (public domain or freely licensed).
+
 ## Deploy to GitHub Pages
 
-The repo is structured as a static site with no build step, so GitHub Pages can host it directly from the root of any branch.
+Static site, no build step. The `.nojekyll` file is present so GitHub Pages will serve every file as-is.
 
 ```sh
-# 1. Create the repo on github.com (or with `gh repo create lostlands --public --source=. --push`)
-# 2. Push:
 git remote add origin git@github.com:<your-username>/lostlands.git
 git branch -M main
 git push -u origin main
-# 3. In GitHub: Settings → Pages → Build from branch → main / (root)
+# In GitHub: Settings → Pages → Build from branch → main / (root)
 ```
-
-The `.nojekyll` file is already present so GitHub Pages will serve every file as-is (including paths beginning with underscores).
-
-## Future volumes
-
-The homepage shows nine more volumes-in-progress: the Ottoman Empire, East Germany, Yugoslavia, Austria-Hungary, the Soviet Union, Czechoslovakia, the Kingdom of Bohemia, and the Republic of Venice. They are cards in the atlas grid on `index.html`. Each one, when written, follows the same template as Prussia: a chapter sequence under `<country>/chapters/`, a `travel.html`, a `routes.html`, and a `mythbusters.html`.

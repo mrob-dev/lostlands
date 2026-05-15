@@ -15,6 +15,7 @@
   <nav class="nav">
     <a class="nav-brand" href="index.html">Lost Lands</a>
     <div class="nav-links">
+      <a href="#globe">The Globe</a>
       <a href="#atlas">The Atlas</a>
       <a href="#about">About</a>
     </div>
@@ -23,14 +24,14 @@
   <header class="hero hero-image" style="--hero-bg: url('https://upload.wikimedia.org/wikipedia/commons/7/72/A_v_Werner_-_Kaiserproklamation_am_18_Januar_1871_%283._Fassung_1885%29.jpg');">
     <div class="hero-bg"></div>
     <div>
-      <p class="hero-eyebrow">A guidebook in twelve volumes &nbsp;·&nbsp; Four available</p>
+      <p class="hero-eyebrow">A guidebook in twelve volumes &nbsp;·&nbsp; All available</p>
       <h1 class="hero-title">The countries<br/>that <em>are no longer there.</em></h1>
       <p class="hero-sub">A reading room and travel guide for kingdoms, empires, and states that have been erased from the map — and the places you can still go to find them.</p>
       <div class="hero-meta">
-        <div>Available<strong>Four volumes</strong></div>
-        <div>Total chapters<strong>Forty-two</strong></div>
-        <div>Travel stops<strong>Eighty-four</strong></div>
-        <div>Driving routes<strong>Thirteen</strong></div>
+        <div>Volumes<strong>Twelve available</strong></div>
+        <div>Chapters<strong>One hundred and four</strong></div>
+        <div>Span<strong>2,500 years</strong></div>
+        <div>Continents<strong>Five</strong></div>
       </div>
     </div>
     <div class="hero-scroll">↓  Scroll to enter</div>
@@ -52,69 +53,117 @@
 
   <hr class="ornament" />
 
+  <!-- ===== 3D GLOBE ===== -->
+  <section class="section-max" id="globe">
+    <p class="kicker">The Globe — twelve disappearances</p>
+    <h2 class="section-title">Find a country<br/><em>where it used to be.</em></h2>
+    <p class="lede" style="max-width: 720px; margin: 24px auto 0;">A slow rotating globe. Each marker is the rough centre of a country that no longer exists. Click one to open its volume. Drag to rotate. Scroll to zoom.</p>
+
+    <div class="globe-wrap">
+      <div id="globe-canvas" class="globe-canvas" aria-label="A 3D globe with twelve markers, each linking to a volume."></div>
+      <div id="globe-tooltip" class="globe-tooltip" hidden></div>
+      <div class="globe-legend">
+        <p class="globe-legend-eyebrow">Markers</p>
+        <ul>
+          <li><span class="dot dot-on"></span> Available now</li>
+          <li><span class="dot dot-off"></span> Forthcoming</li>
+        </ul>
+        <p class="globe-legend-note">Drag&nbsp;to&nbsp;rotate · Scroll&nbsp;to&nbsp;zoom · Click&nbsp;a&nbsp;marker</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ornament" />
+
   <section class="section-max" id="atlas">
-    <p class="kicker">The Atlas — Volumes in progress</p>
+    <p class="kicker">The Atlas — twelve volumes</p>
     <h2 class="section-title">Choose a country<br/><em>that is gone.</em></h2>
 
     <div class="grid grid-3" style="margin-top:32px">
 
       <a class="card" href="prussia/index.html">
-        <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Friedrich_der_Gro%C3%9Fe_-_Johann_Georg_Ziesenis_-_Google_Cultural_Institute_%28cropped_2%29.jpg/500px-Friedrich_der_Gro%C3%9Fe_-_Johann_Georg_Ziesenis_-_Google_Cultural_Institute_%28cropped_2%29.jpg" alt="Frederick the Great of Prussia, portrait by Johann Georg Ziesenis" loading="lazy" />
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Flag_of_the_Kingdom_of_Prussia_%281803-1892%29.svg" alt="Flag of the Kingdom of Prussia, 1803–1892" loading="lazy" />
         <p class="card-num">Vol. I · Available now</p>
         <h3 class="card-title">Prussia <em>1525 — 1947</em></h3>
         <p class="card-desc">A kingdom of sand and discipline that built modern Germany and then was deliberately erased from the map by Allied decree. Fourteen chapters; one travel guide; four driving routes; the myths laid to rest.</p>
       </a>
 
       <a class="card" href="ottoman/index.html">
-        <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Bellini%2C_Gentile_-_Sultan_Mehmet_II.jpg" alt="Mehmed II portrait by Gentile Bellini, 1480" loading="lazy" />
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Flag_of_the_Ottoman_Empire_%281844%E2%80%931922%29.svg" alt="Flag of the Ottoman Empire, 1844–1922" loading="lazy" />
         <p class="card-num">Vol. II · Available now</p>
         <h3 class="card-title">The Ottoman Empire <em>1299 — 1922</em></h3>
         <p class="card-desc">Six hundred and twenty-three years across three continents. The empire that ruled Mecca, Athens, Algiers, and Belgrade — and gave way to twenty-eight successor states.</p>
       </a>
 
       <a class="card" href="east-germany/index.html">
-        <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Trabant_601_Mulhouse_FRA_001.JPG/500px-Trabant_601_Mulhouse_FRA_001.JPG" alt="An East German Trabant 601, 1958-1991 production" loading="lazy" />
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/9/97/Flag_of_the_German_Democratic_Republic.svg" alt="Flag of the German Democratic Republic, 1959–1990" loading="lazy" />
         <p class="card-num">Vol. III · Available now</p>
         <h3 class="card-title">East Germany <em>1949 — 1990</em></h3>
         <p class="card-desc">The German Democratic Republic existed for forty-one years and produced its own cars, films, sportswear, and shortages. The Wall is gone; the country is not, quite.</p>
       </a>
 
       <a class="card" href="yugoslavia/index.html">
-        <img class="card-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Josip_Broz_Tito_uniform_portrait.jpg/500px-Josip_Broz_Tito_uniform_portrait.jpg" alt="Marshal Josip Broz Tito in uniform" loading="lazy" />
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/6/61/Flag_of_Yugoslavia_%281946-1992%29.svg" alt="Flag of the Socialist Federal Republic of Yugoslavia" loading="lazy" />
         <p class="card-num">Vol. IV · Available now</p>
         <h3 class="card-title">Yugoslavia <em>1918 — 2003</em></h3>
         <p class="card-desc">Brotherhood and unity, then seven successor states. Tito's monuments still rise from forests across the Balkans like science fiction.</p>
       </a>
 
-      <div class="card" style="opacity:0.55; cursor:default">
-        <p class="card-num">Vol. V · Forthcoming</p>
-        <h3 class="card-title">Austria-Hungary <em>1867 — 1918</em></h3>
-        <p class="card-desc">The Dual Monarchy. Fifty million subjects, eleven languages, one emperor in a small room in the Hofburg — and a Habsburg coffin in the Capuchin Crypt.</p>
-      </div>
+      <a class="card" href="persia/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/3/38/Flag_of_Iran_with_Official_Lion_and_Sun_emblem_stylized_1970s.svg" alt="Flag of Imperial Iran with the Lion and Sun, 1925–1979" loading="lazy" />
+        <p class="card-num">Vol. V · Available now</p>
+        <h3 class="card-title">Persia <em>550 BC — 1979 AD</em></h3>
+        <p class="card-desc">Two and a half millennia of empire, from Cyrus the Great to the last Shah. Three writing systems, two state religions, one continuous civilisation under twenty different names.</p>
+      </a>
 
-      <div class="card" style="opacity:0.55; cursor:default">
-        <p class="card-num">Vol. VI · Forthcoming</p>
+      <a class="card" href="soviet-union/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_the_Soviet_Union.svg" alt="Flag of the Soviet Union" loading="lazy" />
+        <p class="card-num">Vol. VI · Available now</p>
         <h3 class="card-title">The Soviet Union <em>1922 — 1991</em></h3>
         <p class="card-desc">Eleven time zones; fifteen republics; one ideology. The closed cities, the metro stations, the borderlands where Soviet still hangs in the air.</p>
-      </div>
+      </a>
 
-      <div class="card" style="opacity:0.55; cursor:default">
-        <p class="card-num">Vol. VII · Forthcoming</p>
-        <h3 class="card-title">Czechoslovakia <em>1918 — 1992</em></h3>
-        <p class="card-desc">Two languages, one country, ended by mutual agreement on New Year's Eve. The Velvet Divorce, and what each half kept.</p>
-      </div>
+      <a class="card" href="inca/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Suntur_Paucar.svg" alt="The Suntur Paucar, ceremonial banner of the Sapa Inca" loading="lazy" />
+        <p class="card-num">Vol. VII · Available now</p>
+        <h3 class="card-title">The Inca Empire <em>1438 — 1572</em></h3>
+        <p class="card-desc">The largest pre-Columbian state in the Americas, run without writing, wheels, or money. Tahuantinsuyu — "the four parts together" — fell to fewer than two hundred Spaniards.</p>
+      </a>
 
-      <div class="card" style="opacity:0.55; cursor:default">
-        <p class="card-num">Vol. VIII · Forthcoming</p>
-        <h3 class="card-title">The Kingdom of Bohemia <em>1198 — 1918</em></h3>
-        <p class="card-desc">An elected kingdom in the heart of Europe whose crown was kept in a chamber with seven locks. Prague was its capital; Vienna swallowed it.</p>
-      </div>
+      <a class="card" href="congo-free-state/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Flag_of_the_Congo_Free_State.svg" alt="Flag of the Congo Free State, 1885–1908" loading="lazy" />
+        <p class="card-num">Vol. VIII · Available now</p>
+        <h3 class="card-title">The Congo Free State <em>1885 — 1908</em></h3>
+        <p class="card-desc">A country the size of western Europe, held as personal property by one European monarch. Twenty-three years; rubber; the most catastrophic colonial regime on record.</p>
+      </a>
 
-      <div class="card" style="opacity:0.55; cursor:default">
-        <p class="card-num">Vol. IX · Forthcoming</p>
-        <h3 class="card-title">The Republic of Venice <em>697 — 1797</em></h3>
-        <p class="card-desc">Eleven hundred years as a sovereign maritime republic. Napoleon ended it in seventeen days. The Doge's hat is in a museum on the lagoon.</p>
-      </div>
+      <a class="card" href="rome/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/8/83/Vexilloid_of_the_Roman_Empire.svg" alt="Vexilloid of the Roman Empire bearing SPQR" loading="lazy" />
+        <p class="card-num">Vol. IX · Available now</p>
+        <h3 class="card-title">The Roman Empire <em>27 BC — 1453 AD</em></h3>
+        <p class="card-desc">From Augustus to the fall of Constantinople — fifteen hundred years under one name. Two capitals; two state churches; a road network that outlived the empire itself.</p>
+      </a>
+
+      <a class="card" href="cordoba/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Umayyad_Flag.svg" alt="The white banner of the Umayyads, used by the Caliphate of Córdoba" loading="lazy" />
+        <p class="card-num">Vol. X · Available now</p>
+        <h3 class="card-title">The Caliphate of Córdoba <em>929 — 1031</em></h3>
+        <p class="card-desc">For one century, the most populous city west of Constantinople and the brightest seat of learning in Europe. A library of four hundred thousand books, then civil war.</p>
+      </a>
+
+      <a class="card" href="green-ukraine/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/9/96/Flag_of_Green_Ukraine.svg" alt="Proposed flag of Green Ukraine, 1917–1922" loading="lazy" />
+        <p class="card-num">Vol. XI · Available now</p>
+        <h3 class="card-title">Green Ukraine <em>1917 — 1922</em></h3>
+        <p class="card-desc">An almost-country. A Ukrainian settler republic on the Pacific, declared three times in the chaos of the Russian Civil War, swallowed by the Soviets before it could be mapped.</p>
+      </a>
+
+      <a class="card" href="jerusalem/index.html">
+        <img class="card-img card-flag" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Vexillum_Regni_Hierosolymae.svg" alt="Royal banner of the Kingdom of Jerusalem with the Jerusalem Cross" loading="lazy" />
+        <p class="card-num">Vol. XII · Available now</p>
+        <h3 class="card-title">The Kingdom of Jerusalem <em>1099 — 1291</em></h3>
+        <p class="card-desc">A crusader state of French-speaking knights and Arabic-speaking peasants, ended at Acre with the last Frankish ship to Cyprus. Two centuries; nine kings; one Jerusalem.</p>
+      </a>
 
     </div>
   </section>
@@ -133,9 +182,18 @@
 
   <footer class="site-foot">
     <p>Lost Lands &nbsp;·&nbsp; A guidebook to countries that are no longer there</p>
-    <p>All text written for this site. Imagery via Wikimedia Commons, public domain or freely licensed. Sources cited within each volume.</p>
+    <p>All text written for this site. Imagery and flags via Wikimedia Commons, public domain or freely licensed. Sources cited within each volume.</p>
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="assets/js/globe.js"></script>
 </body>
 </html>
