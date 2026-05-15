@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Atlas Map — Lost Lands</title>
+  <meta name="description" content="All 226 travel destinations from the Lost Lands library on a single interactive map." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500&family=Inter:wght@100;200;300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    /* Atlas-page styles */
+    .atlas-wrap {
+      position: relative;
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: var(--canvas-alt);
+    }
+    #atlas-map {
+      width: 100%;
+      height: 70vh;
+      min-height: 480px;
+      background: var(--canvas-alt);
+      filter: grayscale(0.25) contrast(1.02);
+    }
+    :root[data-theme="dark"] #atlas-map { filter: grayscale(0.4) contrast(1.05) brightness(0.85) invert(0.92) hue-rotate(180deg); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) #atlas-map { filter: grayscale(0.4) contrast(1.05) brightness(0.85) invert(0.92) hue-rotate(180deg); }
+    }
+
+    /* Filter chips */
+    .atlas-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border-top: 1px solid var(--ink);
+      background: var(--canvas);
+    }
+    .atlas-filter {
+      flex: 1 1 auto;
+      min-width: 130px;
+      padding: 14px 14px;
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--canvas);
+      color: var(--ink);
+      border: none;
+      border-right: 1px solid var(--rule-soft);
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+      text-align: left;
+    }
+    .atlas-filter:last-child { border-right: none; }
+    .atlas-filter:hover { background: var(--canvas-alt); }
+    .atlas-filter.is-active {
+      background: var(--ink);
+      color: var(--canvas);
+      border-bottom-color: var(--ink);
+    }
+    .atlas-filter-count {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      margin-top: 4px;
+    }
+    .atlas-filter.is-active .atlas-filter-count { color: var(--canvas); }
+
+    /* Custom marker style */
+    .atlas-marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #292929;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px #292929;
+    }
+    /* Leaflet override: editorial popup style */
+    .leaflet-popup-content-wrapper {
+      border-radius: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    .leaflet-popup-tip { background: var(--canvas); border: 1px solid var(--ink); }
+    .leaflet-popup-content { margin: 14px 18px; font-family: var(--font-nh); }
+    .atlas-pop-eyebrow {
+      font-family: var(--font-condensed);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 4px;
+    }
+    .atlas-pop-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+    .atlas-pop-title { font-size: 13px; color: var(--ink-soft); margin-bottom: 10px; }
+    .atlas-pop-link {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid var(--ink);
+      text-decoration: none;
+    }
+
+    /* Cluster icons — editorial */
+    .marker-cluster {
+      background: rgba(41,41,41,0.15);
+      border: 1px solid #292929;
+    }
+    .marker-cluster div {
+      background: #292929;
+      color: #fff;
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress"></div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html">Lost Lands</a>
+    <div class="nav-links">
+      <a href="index.html#globe">The Globe</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="atlas.html">Atlas Map</a>
+      <a href="index.html#atlas">The Volumes</a>
+    </div>
+  </nav>
+
+  <header class="hero" style="padding-top: 100px; min-height: auto;">
+    <div>
+      <p class="hero-eyebrow">All 226 stops &nbsp;·&nbsp; Twelve volumes</p>
+      <h1 class="hero-title">The Atlas Map.<br/><em>Every destination, plotted.</em></h1>
+      <p class="hero-sub">A geographic index of the entire travel-guide layer of the Lost Lands library. Two hundred and twenty-six destinations across fifty-six countries, every one of them linked to its chapter and travel notes. Filter by volume; click a marker to open its entry.</p>
+    </div>
+  </header>
+
+  <section class="section-max">
+    <div class="atlas-wrap">
+      <div id="atlas-map" aria-label="Interactive world map of all Lost Lands travel destinations"></div>
+      <div class="atlas-filters" id="atlas-filters"></div>
+    </div>
+  </section>
+
+  <hr class="ornament" />
+
+  <section class="section-narrow">
+    <p class="kicker">A note on the markers</p>
+    <h2 class="section-title">Use as<br/><em>a planning tool.</em></h2>
+    <div class="prose">
+      <p>The map is intended as a planning aid. Each marker corresponds to a "stop" in one of the twelve volumes' travel sections, and clicking through takes you to that volume's travel page, where the full description and practical notes live. The travel routes themselves — three or so per volume — are described in each volume's <em>Routes</em> page.</p>
+      <p>The geographic coverage is wider than any single volume implies: the Ottoman and Roman travel sections each have stops in eight countries; the Persia volume has stops in five (Iran, Uzbekistan, Afghanistan, India, the United States); the Soviet volume has stops in nine. The Lost Lands library is not, even by its travel layer, an Eurocentric project.</p>
+      <p>Coordinates are approximate (~5 km accuracy is sufficient at this scale). Where a stop describes a region rather than a point — the Matadi-Kinshasa railway, Hadrian's Wall, the southern Inca Qhapaq Ñan — the marker is placed at a representative midpoint.</p>
+    </div>
+  </section>
+
+  <footer class="site-foot">
+    <p>Lost Lands &nbsp;·&nbsp; The Atlas Map</p>
+    <p>Map tiles by <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>. Markers by Lost Lands.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
+  <script>
+  (async function() {
+    const VOLUME_NAMES = {
+      'prussia': 'Prussia',
+      'ottoman': 'The Ottoman Empire',
+      'east-germany': 'East Germany',
+      'yugoslavia': 'Yugoslavia',
+      'persia': 'Persia',
+      'soviet-union': 'The Soviet Union',
+      'inca': 'The Inca Empire',
+      'congo-free-state': 'The Congo Free State',
+      'rome': 'The Roman Empire',
+      'cordoba': 'The Caliphate of Córdoba',
+      'green-ukraine': 'Green Ukraine',
+      'jerusalem': 'The Kingdom of Jerusalem',
+    };
+    const VOLUME_ORDER = [
+      'prussia','ottoman','east-germany','yugoslavia','persia','soviet-union',
+      'inca','congo-free-state','rome','cordoba','green-ukraine','jerusalem',
+    ];
+
+    const data = await fetch('assets/data/stops.json').then(r => r.json());
+
+    const map = L.map('atlas-map', {
+      center: [30, 25],
+      zoom: 3,
+      worldCopyJump: true,
+      preferCanvas: false,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap',
+    }).addTo(map);
+
+    const layers = {};
+    VOLUME_ORDER.forEach(v => {
+      layers[v] = L.markerClusterGroup({
+        chunkedLoading: true,
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: true,
+      });
+    });
+
+    const counts = {};
+    VOLUME_ORDER.forEach(v => counts[v] = 0);
+
+    const icon = L.divIcon({
+      className: 'atlas-marker-wrap',
+      html: '<span class="atlas-marker"></span>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+    });
+
+    data.forEach(d => {
+      const m = L.marker([d.lat, d.lon], { icon, title: d.name });
+      const html = `
+        <p class="atlas-pop-eyebrow">${VOLUME_NAMES[d.vol]}</p>
+        <p class="atlas-pop-name">${d.name}</p>
+        <p class="atlas-pop-title">${d.title}</p>
+        <a class="atlas-pop-link" href="${d.vol}/travel.html">Open travel guide →</a>
+      `;
+      m.bindPopup(html);
+      layers[d.vol].addLayer(m);
+      counts[d.vol]++;
+    });
+
+    // Start with all volumes visible
+    VOLUME_ORDER.forEach(v => map.addLayer(layers[v]));
+
+    // Build filter chips
+    const filters = document.getElementById('atlas-filters');
+    const allBtn = document.createElement('button');
+    allBtn.className = 'atlas-filter is-active';
+    allBtn.dataset.vol = '__all';
+    allBtn.innerHTML = `All volumes<span class="atlas-filter-count">${data.length}</span>`;
+    filters.appendChild(allBtn);
+
+    VOLUME_ORDER.forEach(v => {
+      const b = document.createElement('button');
+      b.className = 'atlas-filter is-active';
+      b.dataset.vol = v;
+      b.innerHTML = `${VOLUME_NAMES[v]}<span class="atlas-filter-count">${counts[v]}</span>`;
+      filters.appendChild(b);
+    });
+
+    function setActive(activeVols) {
+      VOLUME_ORDER.forEach(v => {
+        if (activeVols.has(v)) {
+          if (!map.hasLayer(layers[v])) map.addLayer(layers[v]);
+        } else {
+          if (map.hasLayer(layers[v])) map.removeLayer(layers[v]);
+        }
+      });
+      // Update button states
+      filters.querySelectorAll('.atlas-filter').forEach(btn => {
+        const v = btn.dataset.vol;
+        if (v === '__all') {
+          btn.classList.toggle('is-active', activeVols.size === VOLUME_ORDER.length);
+        } else {
+          btn.classList.toggle('is-active', activeVols.has(v));
+        }
+      });
+    }
+
+    filters.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('.atlas-filter');
+      if (!btn) return;
+      const v = btn.dataset.vol;
+      if (v === '__all') {
+        // Toggle: if all active, hide all; otherwise show all
+        const allActive = VOLUME_ORDER.every(x => map.hasLayer(layers[x]));
+        setActive(new Set(allActive ? [] : VOLUME_ORDER));
+        return;
+      }
+      // Single-volume click — solo to just this volume (with shift to toggle additively)
+      if (ev.shiftKey) {
+        const active = new Set(VOLUME_ORDER.filter(x => map.hasLayer(layers[x])));
+        if (active.has(v)) active.delete(v); else active.add(v);
+        setActive(active);
+      } else {
+        // If this is the only active one, expand back to all; otherwise solo
+        const active = new Set(VOLUME_ORDER.filter(x => map.hasLayer(layers[x])));
+        if (active.size === 1 && active.has(v)) {
+          setActive(new Set(VOLUME_ORDER));
+        } else {
+          setActive(new Set([v]));
+        }
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
