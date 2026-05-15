@@ -121,6 +121,72 @@
       text-decoration: none;
     }
 
+    /* Route lines */
+    .atlas-route-line {
+      stroke: #292929;
+      stroke-width: 2;
+      stroke-dasharray: 4 5;
+      fill: none;
+      opacity: 0.55;
+    }
+    :root[data-theme="dark"] .atlas-route-line { stroke: #f4f1ea; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .atlas-route-line { stroke: #f4f1ea; }
+    }
+    /* Top-of-map control */
+    .atlas-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--ink);
+      background: var(--canvas);
+    }
+    .atlas-toolbar-title {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .atlas-toolbar-toggle {
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--canvas);
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .atlas-toolbar-toggle.is-active { background: var(--ink); color: var(--canvas); }
+    .atlas-toolbar-toggle:hover { background: var(--canvas-alt); }
+    .atlas-toolbar-toggle.is-active:hover { background: var(--ink); color: var(--canvas); }
+
+    /* Route popup */
+    .atlas-route-pop {
+      font-family: var(--font-nh);
+    }
+    .atlas-route-pop .eyebrow {
+      font-family: var(--font-condensed);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 4px;
+    }
+    .atlas-route-pop .name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .atlas-route-pop .summary { font-size: 13px; color: var(--ink-soft); margin-bottom: 10px; }
+
     /* Cluster icons — editorial */
     .marker-cluster {
       background: rgba(41,41,41,0.15);
@@ -148,6 +214,7 @@
       <a href="index.html#globe">The Globe</a>
       <a href="timeline.html">Timeline</a>
       <a href="atlas.html">Atlas Map</a>
+      <a href="search.html">Search</a>
       <a href="index.html#atlas">The Volumes</a>
     </div>
   </nav>
@@ -162,6 +229,10 @@
 
   <section class="section-max">
     <div class="atlas-wrap">
+      <div class="atlas-toolbar">
+        <span class="atlas-toolbar-title">226 stops · 31 driving routes</span>
+        <button class="atlas-toolbar-toggle" id="route-toggle" aria-pressed="false">Show driving routes</button>
+      </div>
       <div id="atlas-map" aria-label="Interactive world map of all Lost Lands travel destinations"></div>
       <div class="atlas-filters" id="atlas-filters"></div>
     </div>
@@ -208,7 +279,10 @@
       'inca','congo-free-state','rome','cordoba','green-ukraine','jerusalem',
     ];
 
-    const data = await fetch('assets/data/stops.json').then(r => r.json());
+    const [data, routes] = await Promise.all([
+      fetch('assets/data/stops.json').then(r => r.json()),
+      fetch('assets/data/routes.json').then(r => r.json()).catch(() => []),
+    ]);
 
     const map = L.map('atlas-map', {
       center: [30, 25],
@@ -257,6 +331,71 @@
     // Start with all volumes visible
     VOLUME_ORDER.forEach(v => map.addLayer(layers[v]));
 
+    // Build per-volume route layers (initially hidden; toggled by the toolbar)
+    const routeLayers = {};
+    VOLUME_ORDER.forEach(v => { routeLayers[v] = L.layerGroup(); });
+    let routesVisible = false;
+
+    // Update the toolbar text to reflect the actual route count.
+    const toolbarTitle = document.querySelector('.atlas-toolbar-title');
+    if (toolbarTitle) toolbarTitle.textContent = `${data.length} stops · ${routes.length} driving routes`;
+
+    (routes || []).forEach(route => {
+      const coords = (route.waypoints || []).map(w => [w.lat, w.lon]);
+      if (coords.length < 2 || !routeLayers[route.vol]) return;
+      const line = L.polyline(coords, {
+        className: 'atlas-route-line',
+        color: '#292929',
+        weight: 2,
+        opacity: 0.55,
+        dashArray: '4 5',
+        lineJoin: 'round',
+      });
+      const html = `
+        <div class="atlas-route-pop">
+          <p class="eyebrow">${VOLUME_NAMES[route.vol]} · Driving route</p>
+          <p class="name">${route.name}</p>
+          <p class="summary">${route.summary || ''}</p>
+          <a class="atlas-pop-link" href="${route.vol}/routes.html">Open routes →</a>
+        </div>
+      `;
+      line.bindPopup(html);
+      routeLayers[route.vol].addLayer(line);
+
+      // Small endpoint dots so the line endpoints are visible at low zoom
+      [coords[0], coords[coords.length - 1]].forEach(pt => {
+        const dot = L.circleMarker(pt, {
+          radius: 3,
+          color: '#292929',
+          weight: 1,
+          fillColor: '#292929',
+          fillOpacity: 1,
+          opacity: 0.8,
+          interactive: false,
+          className: 'atlas-route-dot',
+        });
+        routeLayers[route.vol].addLayer(dot);
+      });
+    });
+
+    function syncRouteVisibility() {
+      VOLUME_ORDER.forEach(v => {
+        const showThisVol = routesVisible && map.hasLayer(layers[v]);
+        const has = map.hasLayer(routeLayers[v]);
+        if (showThisVol && !has) map.addLayer(routeLayers[v]);
+        else if (!showThisVol && has) map.removeLayer(routeLayers[v]);
+      });
+    }
+
+    const routeBtn = document.getElementById('route-toggle');
+    routeBtn.addEventListener('click', () => {
+      routesVisible = !routesVisible;
+      routeBtn.classList.toggle('is-active', routesVisible);
+      routeBtn.setAttribute('aria-pressed', routesVisible ? 'true' : 'false');
+      routeBtn.textContent = routesVisible ? 'Hide driving routes' : 'Show driving routes';
+      syncRouteVisibility();
+    });
+
     // Build filter chips
     const filters = document.getElementById('atlas-filters');
     const allBtn = document.createElement('button');
@@ -281,6 +420,7 @@
           if (map.hasLayer(layers[v])) map.removeLayer(layers[v]);
         }
       });
+      syncRouteVisibility();
       // Update button states
       filters.querySelectorAll('.atlas-filter').forEach(btn => {
         const v = btn.dataset.vol;

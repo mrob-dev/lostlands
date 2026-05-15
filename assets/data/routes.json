@@ -1,0 +1,419 @@
+[
+  {
+    "vol": "prussia",
+    "name": "Frederick's country",
+    "summary": "Berlin / Potsdam / Rheinsberg / Küstrin / Frankfurt-an-der-Oder",
+    "waypoints": [
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40},
+      {"name": "Potsdam", "lat": 52.40, "lon": 13.06},
+      {"name": "Rheinsberg", "lat": 53.10, "lon": 12.89},
+      {"name": "Küstrin (Kostrzyn nad Odrą)", "lat": 52.59, "lon": 14.65},
+      {"name": "Frankfurt-an-der-Oder", "lat": 52.34, "lon": 14.55},
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40}
+    ]
+  },
+  {
+    "vol": "prussia",
+    "name": "The Teutonic East",
+    "summary": "Berlin → Toruń → Malbork → Gdańsk → Frombork → Olsztyn → Berlin",
+    "waypoints": [
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40},
+      {"name": "Poznań", "lat": 52.41, "lon": 16.93},
+      {"name": "Toruń", "lat": 53.01, "lon": 18.61},
+      {"name": "Malbork", "lat": 54.04, "lon": 19.03},
+      {"name": "Gdańsk", "lat": 54.35, "lon": 18.65},
+      {"name": "Frombork", "lat": 54.36, "lon": 19.68},
+      {"name": "Olsztyn", "lat": 53.78, "lon": 20.49},
+      {"name": "Grunwald", "lat": 53.49, "lon": 20.08},
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40}
+    ]
+  },
+  {
+    "vol": "prussia",
+    "name": "The four battles",
+    "summary": "Berlin → Jena → Leipzig → Hradec Králové → Sedan → Versailles",
+    "waypoints": [
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40},
+      {"name": "Jena", "lat": 50.93, "lon": 11.59},
+      {"name": "Leipzig", "lat": 51.34, "lon": 12.37},
+      {"name": "Hradec Králové", "lat": 50.21, "lon": 15.83},
+      {"name": "Sedan", "lat": 49.70, "lon": 4.95},
+      {"name": "Versailles", "lat": 48.80, "lon": 2.13},
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40}
+    ]
+  },
+
+  {
+    "vol": "ottoman",
+    "name": "The capitals",
+    "summary": "Bursa → Istanbul → Edirne",
+    "waypoints": [
+      {"name": "Bursa", "lat": 40.18, "lon": 29.07},
+      {"name": "Istanbul", "lat": 41.01, "lon": 28.98},
+      {"name": "Edirne", "lat": 41.68, "lon": 26.56}
+    ]
+  },
+  {
+    "vol": "ottoman",
+    "name": "The Balkan road",
+    "summary": "Istanbul → Plovdiv → Sofia → Skopje → Sarajevo → Mostar",
+    "waypoints": [
+      {"name": "Istanbul", "lat": 41.01, "lon": 28.98},
+      {"name": "Plovdiv", "lat": 42.14, "lon": 24.75},
+      {"name": "Sofia", "lat": 42.70, "lon": 23.32},
+      {"name": "Skopje", "lat": 41.99, "lon": 21.43},
+      {"name": "Sarajevo", "lat": 43.85, "lon": 18.39},
+      {"name": "Mostar", "lat": 43.34, "lon": 17.81}
+    ]
+  },
+  {
+    "vol": "ottoman",
+    "name": "The Greek frontier",
+    "summary": "Istanbul → Bursa → İznik → Çanakkale → İzmir → Rhodes",
+    "waypoints": [
+      {"name": "Istanbul", "lat": 41.01, "lon": 28.98},
+      {"name": "Bursa", "lat": 40.18, "lon": 29.07},
+      {"name": "İznik", "lat": 40.43, "lon": 29.72},
+      {"name": "Çanakkale (Gallipoli)", "lat": 40.15, "lon": 26.41},
+      {"name": "İzmir", "lat": 38.42, "lon": 27.13},
+      {"name": "Rhodes", "lat": 36.45, "lon": 28.22}
+    ]
+  },
+
+  {
+    "vol": "east-germany",
+    "name": "The inner border",
+    "summary": "Travemünde / Lübeck → Schwerin → Marienborn → Mödlareuth",
+    "waypoints": [
+      {"name": "Travemünde", "lat": 53.96, "lon": 10.87},
+      {"name": "Schwerin", "lat": 53.63, "lon": 11.41},
+      {"name": "Marienborn", "lat": 52.21, "lon": 11.05},
+      {"name": "Mödlareuth", "lat": 50.41, "lon": 11.85},
+      {"name": "Hof", "lat": 50.31, "lon": 11.91}
+    ]
+  },
+  {
+    "vol": "east-germany",
+    "name": "Socialist cities",
+    "summary": "Berlin → Eisenhüttenstadt → Cottbus → Hoyerswerda → Dresden → Chemnitz",
+    "waypoints": [
+      {"name": "Berlin", "lat": 52.52, "lon": 13.40},
+      {"name": "Eisenhüttenstadt", "lat": 52.15, "lon": 14.65},
+      {"name": "Cottbus", "lat": 51.76, "lon": 14.33},
+      {"name": "Hoyerswerda", "lat": 51.43, "lon": 14.25},
+      {"name": "Dresden", "lat": 51.05, "lon": 13.74},
+      {"name": "Chemnitz", "lat": 50.83, "lon": 12.92}
+    ]
+  },
+  {
+    "vol": "east-germany",
+    "name": "Luther and the camps",
+    "summary": "Wittenberg → Leipzig → Weimar → Buchenwald → Erfurt → Eisenach",
+    "waypoints": [
+      {"name": "Wittenberg", "lat": 51.87, "lon": 12.65},
+      {"name": "Leipzig", "lat": 51.34, "lon": 12.37},
+      {"name": "Weimar", "lat": 50.98, "lon": 11.33},
+      {"name": "Buchenwald", "lat": 51.02, "lon": 11.25},
+      {"name": "Erfurt", "lat": 50.98, "lon": 11.03},
+      {"name": "Eisenach", "lat": 50.97, "lon": 10.32}
+    ]
+  },
+
+  {
+    "vol": "yugoslavia",
+    "name": "Adriatic Highway",
+    "summary": "Ljubljana → Trieste → Croatian Istria → Split → Dubrovnik → Kotor → Shkodër",
+    "waypoints": [
+      {"name": "Ljubljana", "lat": 46.05, "lon": 14.51},
+      {"name": "Bled", "lat": 46.37, "lon": 14.11},
+      {"name": "Piran / Trieste", "lat": 45.65, "lon": 13.78},
+      {"name": "Rovinj (Istria)", "lat": 45.08, "lon": 13.64},
+      {"name": "Zadar", "lat": 44.12, "lon": 15.23},
+      {"name": "Split", "lat": 43.51, "lon": 16.44},
+      {"name": "Dubrovnik", "lat": 42.65, "lon": 18.09},
+      {"name": "Kotor", "lat": 42.42, "lon": 18.77},
+      {"name": "Shkodër", "lat": 42.07, "lon": 19.51}
+    ]
+  },
+  {
+    "vol": "yugoslavia",
+    "name": "The war route",
+    "summary": "Belgrade → Višegrad → Sarajevo → Mostar → Split → Zagreb",
+    "waypoints": [
+      {"name": "Belgrade", "lat": 44.81, "lon": 20.46},
+      {"name": "Višegrad", "lat": 43.78, "lon": 19.29},
+      {"name": "Srebrenica", "lat": 44.10, "lon": 19.30},
+      {"name": "Sarajevo", "lat": 43.85, "lon": 18.39},
+      {"name": "Mostar", "lat": 43.34, "lon": 17.81},
+      {"name": "Split", "lat": 43.51, "lon": 16.44},
+      {"name": "Zagreb", "lat": 45.81, "lon": 15.98}
+    ]
+  },
+
+  {
+    "vol": "persia",
+    "name": "The Achaemenid south",
+    "summary": "Shiraz → Pasargadae → Persepolis → Yazd → Ahvaz → Shushtar",
+    "waypoints": [
+      {"name": "Shiraz", "lat": 29.59, "lon": 52.58},
+      {"name": "Pasargadae", "lat": 30.19, "lon": 53.18},
+      {"name": "Persepolis / Naqsh-e Rostam", "lat": 29.93, "lon": 52.89},
+      {"name": "Yazd", "lat": 31.90, "lon": 54.37},
+      {"name": "Shushtar", "lat": 32.05, "lon": 48.86},
+      {"name": "Choqa Zanbil / Susa", "lat": 32.01, "lon": 48.52},
+      {"name": "Ahvaz", "lat": 31.32, "lon": 48.67}
+    ]
+  },
+  {
+    "vol": "persia",
+    "name": "The Safavid centre",
+    "summary": "Tehran → Qom → Kashan → Isfahan → Yazd → Kerman → Mashhad",
+    "waypoints": [
+      {"name": "Tehran", "lat": 35.69, "lon": 51.39},
+      {"name": "Qom", "lat": 34.64, "lon": 50.88},
+      {"name": "Kashan", "lat": 33.98, "lon": 51.43},
+      {"name": "Isfahan", "lat": 32.66, "lon": 51.68},
+      {"name": "Yazd", "lat": 31.90, "lon": 54.37},
+      {"name": "Kerman", "lat": 30.29, "lon": 57.06},
+      {"name": "Mashhad", "lat": 36.30, "lon": 59.61}
+    ]
+  },
+  {
+    "vol": "persia",
+    "name": "The Turkic north",
+    "summary": "Tabriz → Maragheh → Takht-e Soleyman",
+    "waypoints": [
+      {"name": "Tabriz", "lat": 38.08, "lon": 46.29},
+      {"name": "Maragheh", "lat": 37.39, "lon": 46.24},
+      {"name": "Takht-e Soleyman", "lat": 36.60, "lon": 47.23}
+    ]
+  },
+
+  {
+    "vol": "soviet-union",
+    "name": "The Trans-Siberian",
+    "summary": "Moscow → Yekaterinburg → Novosibirsk → Irkutsk → Ulan-Ude → Vladivostok",
+    "waypoints": [
+      {"name": "Moscow", "lat": 55.75, "lon": 37.62},
+      {"name": "Yekaterinburg", "lat": 56.84, "lon": 60.61},
+      {"name": "Novosibirsk", "lat": 55.03, "lon": 82.92},
+      {"name": "Irkutsk", "lat": 52.29, "lon": 104.30},
+      {"name": "Lake Baikal · Listvyanka", "lat": 51.85, "lon": 104.87},
+      {"name": "Ulan-Ude", "lat": 51.83, "lon": 107.61},
+      {"name": "Vladivostok", "lat": 43.12, "lon": 131.89}
+    ]
+  },
+  {
+    "vol": "soviet-union",
+    "name": "The Caucasus",
+    "summary": "Tbilisi → Gori → Yerevan → Sheki → Baku",
+    "waypoints": [
+      {"name": "Tbilisi", "lat": 41.72, "lon": 44.79},
+      {"name": "Gori", "lat": 41.98, "lon": 44.11},
+      {"name": "Yerevan", "lat": 40.18, "lon": 44.51},
+      {"name": "Tbilisi", "lat": 41.72, "lon": 44.79},
+      {"name": "Sheki", "lat": 41.20, "lon": 47.17},
+      {"name": "Baku", "lat": 40.41, "lon": 49.87}
+    ]
+  },
+  {
+    "vol": "soviet-union",
+    "name": "Central Asia",
+    "summary": "Tashkent → Samarkand → Bukhara → Khiva",
+    "waypoints": [
+      {"name": "Tashkent", "lat": 41.30, "lon": 69.24},
+      {"name": "Samarkand", "lat": 39.65, "lon": 66.97},
+      {"name": "Bukhara", "lat": 39.77, "lon": 64.43},
+      {"name": "Khiva", "lat": 41.39, "lon": 60.36}
+    ]
+  },
+
+  {
+    "vol": "inca",
+    "name": "The Cuzco core",
+    "summary": "Cuzco → Sacred Valley → Machu Picchu → Tipón",
+    "waypoints": [
+      {"name": "Cuzco", "lat": -13.53, "lon": -71.97},
+      {"name": "Sacsayhuamán", "lat": -13.51, "lon": -71.98},
+      {"name": "Pisac", "lat": -13.42, "lon": -71.85},
+      {"name": "Ollantaytambo", "lat": -13.26, "lon": -72.27},
+      {"name": "Machu Picchu", "lat": -13.16, "lon": -72.54},
+      {"name": "Tipón / Pikillaqta", "lat": -13.56, "lon": -71.78}
+    ]
+  },
+  {
+    "vol": "inca",
+    "name": "The Inca Trail",
+    "summary": "Km 82 → Wayllabamba → Pacaymayu → Wiñay Wayna → Machu Picchu",
+    "waypoints": [
+      {"name": "Km 82 (Piscacucho)", "lat": -13.21, "lon": -72.43},
+      {"name": "Wayllabamba", "lat": -13.21, "lon": -72.50},
+      {"name": "Dead Woman's Pass", "lat": -13.20, "lon": -72.53},
+      {"name": "Pacaymayu", "lat": -13.18, "lon": -72.54},
+      {"name": "Wiñay Wayna", "lat": -13.18, "lon": -72.53},
+      {"name": "Machu Picchu (Sun Gate)", "lat": -13.16, "lon": -72.54}
+    ]
+  },
+  {
+    "vol": "inca",
+    "name": "Lake Titicaca crossing",
+    "summary": "Cuzco → Puno → Copacabana → La Paz → Tiwanaku → Sucre",
+    "waypoints": [
+      {"name": "Cuzco", "lat": -13.53, "lon": -71.97},
+      {"name": "Raqchi", "lat": -14.17, "lon": -71.38},
+      {"name": "Puno", "lat": -15.84, "lon": -70.02},
+      {"name": "Copacabana (Bolivia)", "lat": -16.16, "lon": -69.09},
+      {"name": "Isla del Sol", "lat": -16.02, "lon": -69.18},
+      {"name": "La Paz", "lat": -16.50, "lon": -68.15},
+      {"name": "Tiwanaku", "lat": -16.55, "lon": -68.67},
+      {"name": "Sucre", "lat": -19.05, "lon": -65.26}
+    ]
+  },
+
+  {
+    "vol": "congo-free-state",
+    "name": "Up the river",
+    "summary": "Matadi → Kinshasa → Mbandaka → Kisangani",
+    "waypoints": [
+      {"name": "Matadi", "lat": -5.82, "lon": 13.45},
+      {"name": "Kinshasa", "lat": -4.32, "lon": 15.32},
+      {"name": "Mbandaka", "lat": 0.05, "lon": 18.27},
+      {"name": "Kisangani", "lat": 0.52, "lon": 25.20}
+    ]
+  },
+  {
+    "vol": "congo-free-state",
+    "name": "The metropole",
+    "summary": "Brussels → Tervuren → Antwerp → Ostend",
+    "waypoints": [
+      {"name": "Brussels", "lat": 50.84, "lon": 4.39},
+      {"name": "Tervuren · AfricaMuseum", "lat": 50.83, "lon": 4.51},
+      {"name": "Antwerp", "lat": 51.22, "lon": 4.40},
+      {"name": "Ostend", "lat": 51.23, "lon": 2.92},
+      {"name": "Brussels", "lat": 50.84, "lon": 4.39}
+    ]
+  },
+
+  {
+    "vol": "rome",
+    "name": "The Via Appia",
+    "summary": "Rome → Terracina → Capua → Benevento → Venosa → Taranto → Brindisi",
+    "waypoints": [
+      {"name": "Rome", "lat": 41.90, "lon": 12.50},
+      {"name": "Terracina", "lat": 41.29, "lon": 13.25},
+      {"name": "Capua", "lat": 41.10, "lon": 14.21},
+      {"name": "Benevento", "lat": 41.13, "lon": 14.78},
+      {"name": "Venosa", "lat": 40.96, "lon": 15.82},
+      {"name": "Taranto", "lat": 40.46, "lon": 17.24},
+      {"name": "Brindisi", "lat": 40.64, "lon": 17.94}
+    ]
+  },
+  {
+    "vol": "rome",
+    "name": "The Limes Germanicus",
+    "summary": "Cologne → Bonn → Mainz → Saalburg → Regensburg → Passau",
+    "waypoints": [
+      {"name": "Cologne", "lat": 50.94, "lon": 6.96},
+      {"name": "Bonn", "lat": 50.74, "lon": 7.10},
+      {"name": "Mainz", "lat": 50.00, "lon": 8.27},
+      {"name": "Saalburg", "lat": 50.27, "lon": 8.57},
+      {"name": "Regensburg", "lat": 49.01, "lon": 12.10},
+      {"name": "Passau", "lat": 48.57, "lon": 13.45}
+    ]
+  },
+  {
+    "vol": "rome",
+    "name": "Byzantine echoes",
+    "summary": "Istanbul → Thessaloniki → Meteora → Delphi → Mistras → Athens",
+    "waypoints": [
+      {"name": "Istanbul", "lat": 41.01, "lon": 28.98},
+      {"name": "Thessaloniki", "lat": 40.64, "lon": 22.94},
+      {"name": "Vergina", "lat": 40.48, "lon": 22.32},
+      {"name": "Meteora", "lat": 39.72, "lon": 21.63},
+      {"name": "Delphi", "lat": 38.48, "lon": 22.50},
+      {"name": "Mistras", "lat": 37.07, "lon": 22.37},
+      {"name": "Athens", "lat": 37.98, "lon": 23.73}
+    ]
+  },
+
+  {
+    "vol": "cordoba",
+    "name": "Al-Andalus",
+    "summary": "Córdoba → Madinat al-Zahra → Almería → Granada → Ronda → Seville",
+    "waypoints": [
+      {"name": "Córdoba", "lat": 37.88, "lon": -4.78},
+      {"name": "Madinat al-Zahra", "lat": 37.89, "lon": -4.87},
+      {"name": "Almería", "lat": 36.84, "lon": -2.46},
+      {"name": "Granada", "lat": 37.18, "lon": -3.59},
+      {"name": "Ronda", "lat": 36.74, "lon": -5.16},
+      {"name": "Seville", "lat": 37.39, "lon": -5.99},
+      {"name": "Córdoba", "lat": 37.88, "lon": -4.78}
+    ]
+  },
+  {
+    "vol": "cordoba",
+    "name": "Reconquest cities",
+    "summary": "Toledo → Madrid → El Escorial → Zaragoza → Tudela → Pamplona",
+    "waypoints": [
+      {"name": "Toledo", "lat": 39.86, "lon": -4.02},
+      {"name": "Madrid", "lat": 40.42, "lon": -3.70},
+      {"name": "El Escorial", "lat": 40.59, "lon": -4.15},
+      {"name": "Zaragoza", "lat": 41.66, "lon": -0.89},
+      {"name": "Tudela", "lat": 42.06, "lon": -1.61},
+      {"name": "Pamplona", "lat": 42.81, "lon": -1.65}
+    ]
+  },
+
+  {
+    "vol": "green-ukraine",
+    "name": "The Far Eastern circuit",
+    "summary": "Chita → Blagoveshchensk → Khabarovsk → Ussuriysk → Vladivostok",
+    "waypoints": [
+      {"name": "Chita", "lat": 52.03, "lon": 113.50},
+      {"name": "Blagoveshchensk", "lat": 50.27, "lon": 127.53},
+      {"name": "Khabarovsk", "lat": 48.48, "lon": 135.08},
+      {"name": "Ussuriysk", "lat": 43.80, "lon": 131.95},
+      {"name": "Vladivostok", "lat": 43.12, "lon": 131.89}
+    ]
+  },
+
+  {
+    "vol": "jerusalem",
+    "name": "Jaffa to Jerusalem",
+    "summary": "Jaffa → Latrun → Abu Ghosh → Jerusalem → Bethlehem → Jericho",
+    "waypoints": [
+      {"name": "Jaffa", "lat": 32.05, "lon": 34.75},
+      {"name": "Latrun", "lat": 31.84, "lon": 34.98},
+      {"name": "Abu Ghosh", "lat": 31.81, "lon": 35.11},
+      {"name": "Jerusalem", "lat": 31.78, "lon": 35.22},
+      {"name": "Bethlehem", "lat": 31.71, "lon": 35.20},
+      {"name": "Jericho", "lat": 31.86, "lon": 35.46},
+      {"name": "Qasr el Yahud", "lat": 31.84, "lon": 35.52}
+    ]
+  },
+  {
+    "vol": "jerusalem",
+    "name": "Oultrejourdain",
+    "summary": "Amman → Kerak → Shobak → Petra → Aqaba",
+    "waypoints": [
+      {"name": "Amman", "lat": 31.95, "lon": 35.93},
+      {"name": "Kerak", "lat": 31.18, "lon": 35.70},
+      {"name": "Shobak (Montreal)", "lat": 30.53, "lon": 35.55},
+      {"name": "Petra", "lat": 30.32, "lon": 35.48},
+      {"name": "Aqaba", "lat": 29.53, "lon": 35.00}
+    ]
+  },
+  {
+    "vol": "jerusalem",
+    "name": "The Hospitaller route",
+    "summary": "Acre → Cyprus → Rhodes → Malta",
+    "waypoints": [
+      {"name": "Acre", "lat": 32.93, "lon": 35.08},
+      {"name": "Nicosia", "lat": 35.17, "lon": 33.36},
+      {"name": "Famagusta", "lat": 35.13, "lon": 33.94},
+      {"name": "Rhodes", "lat": 36.45, "lon": 28.22},
+      {"name": "Valletta (Malta)", "lat": 35.90, "lon": 14.51},
+      {"name": "Mdina", "lat": 35.89, "lon": 14.40}
+    ]
+  }
+]

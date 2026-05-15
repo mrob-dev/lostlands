@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search — Lost Lands</title>
+  <meta name="description" content="Full-text search across all twelve volumes of the Lost Lands library." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500&family=Inter:wght@100;200;300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    .search-shell {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .search-bar {
+      border: 1px solid var(--ink);
+      background: var(--canvas);
+      display: flex;
+      align-items: stretch;
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+    .search-bar input[type="search"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 18px 20px;
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+    .search-bar input[type="search"]::placeholder {
+      color: var(--ink-soft);
+      font-family: var(--font-display);
+    }
+    .search-bar .search-clear {
+      background: transparent;
+      border: none;
+      border-left: 1px solid var(--rule-soft);
+      color: var(--ink-soft);
+      padding: 0 18px;
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .search-bar .search-clear:hover { color: var(--ink); }
+
+    .search-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 0 28px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--rule-soft);
+      font-family: var(--font-condensed);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .search-meta .scope-chips {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .scope-chip {
+      font-family: var(--font-condensed);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--ink-soft);
+      border: 1px solid var(--rule-soft);
+      border-right: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .scope-chip:last-child { border-right: 1px solid var(--rule-soft); }
+    .scope-chip.is-active {
+      background: var(--ink);
+      color: var(--canvas);
+      border-color: var(--ink);
+    }
+
+    .search-results {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 80px;
+    }
+    .search-result {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .search-result:first-child { border-top: 1px solid var(--rule-soft); }
+    .search-result a {
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+    }
+    .result-eyebrow {
+      font-family: var(--font-condensed);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 0 0 6px;
+    }
+    .result-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      margin: 0 0 8px;
+      color: var(--ink);
+    }
+    .result-snippet {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+    .result-snippet mark {
+      background: rgba(212, 184, 90, 0.35);
+      color: var(--ink);
+      padding: 1px 2px;
+      border-radius: 2px;
+    }
+    :root[data-theme="dark"] .result-snippet mark { background: rgba(212, 184, 90, 0.55); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .result-snippet mark { background: rgba(212, 184, 90, 0.55); }
+    }
+    .search-empty {
+      padding: 60px 0;
+      text-align: center;
+      color: var(--ink-soft);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+    }
+    .search-loading {
+      padding: 60px 0;
+      text-align: center;
+      color: var(--ink-soft);
+      font-family: var(--font-condensed);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress"></div>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html">Lost Lands</a>
+    <div class="nav-links">
+      <a href="index.html#globe">The Globe</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="atlas.html">Map</a>
+      <a href="search.html">Search</a>
+      <a href="index.html#atlas">The Atlas</a>
+    </div>
+  </nav>
+
+  <header class="hero" style="padding-top: 100px; min-height: auto;">
+    <div>
+      <p class="hero-eyebrow">178 pages &nbsp;·&nbsp; twelve volumes</p>
+      <h1 class="hero-title">Search.<br/><em>One field, the whole library.</em></h1>
+      <p class="hero-sub">Type a name, a place, an event, a date. The index covers every chapter, every travel page, every routes page, every mythbusters page, and every bibliography across the twelve volumes. Results are scored by where matches occur — title matches outrank body matches — and you can narrow the search to a single volume with the chips below.</p>
+    </div>
+  </header>
+
+  <section class="section-narrow">
+    <div class="search-shell">
+      <form class="search-bar" id="search-form" role="search" autocomplete="off">
+        <input type="search" id="search-input" placeholder="Try “Hattin”, “Persepolis”, “Berlin Wall”…" aria-label="Search the Lost Lands library" />
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search">Clear</button>
+      </form>
+
+      <div class="search-meta">
+        <span id="result-count">Start typing to search the library.</span>
+        <div class="scope-chips" id="scope-chips"></div>
+      </div>
+
+      <ul class="search-results" id="search-results"></ul>
+      <div class="search-loading" id="search-loading">Loading the index…</div>
+      <div class="search-empty" id="search-empty" hidden>No matches. Try a different word, or remove the volume filter.</div>
+    </div>
+  </section>
+
+  <footer class="site-foot">
+    <p>Lost Lands &nbsp;·&nbsp; Search</p>
+    <p>The search index is a single 850-kilobyte JSON file generated at publish time.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+  (async function() {
+    const VOLUME_NAMES = {
+      'prussia': 'Prussia',
+      'ottoman': 'Ottoman',
+      'east-germany': 'East Germany',
+      'yugoslavia': 'Yugoslavia',
+      'persia': 'Persia',
+      'soviet-union': 'Soviet Union',
+      'inca': 'Inca',
+      'congo-free-state': 'Congo Free State',
+      'rome': 'Rome',
+      'cordoba': 'Córdoba',
+      'green-ukraine': 'Green Ukraine',
+      'jerusalem': 'Jerusalem',
+    };
+    const VOLUME_ORDER = [
+      'prussia','ottoman','east-germany','yugoslavia','persia','soviet-union',
+      'inca','congo-free-state','rome','cordoba','green-ukraine','jerusalem',
+    ];
+
+    const input = document.getElementById('search-input');
+    const clearBtn = document.getElementById('search-clear');
+    const resultsEl = document.getElementById('search-results');
+    const countEl = document.getElementById('result-count');
+    const emptyEl = document.getElementById('search-empty');
+    const loadingEl = document.getElementById('search-loading');
+    const chipsEl = document.getElementById('scope-chips');
+
+    // Build scope chips.
+    const scopes = [['', 'All']].concat(VOLUME_ORDER.map(v => [v, VOLUME_NAMES[v]]));
+    let activeScope = '';
+    scopes.forEach(([id, label]) => {
+      const b = document.createElement('button');
+      b.className = 'scope-chip' + (id === '' ? ' is-active' : '');
+      b.dataset.vol = id;
+      b.textContent = label;
+      b.addEventListener('click', () => {
+        activeScope = id;
+        chipsEl.querySelectorAll('.scope-chip').forEach(c => c.classList.toggle('is-active', c.dataset.vol === id));
+        runSearch();
+      });
+      chipsEl.appendChild(b);
+    });
+
+    let docs = [];
+    try {
+      const res = await fetch('assets/data/search-index.json');
+      docs = await res.json();
+    } catch (err) {
+      loadingEl.textContent = 'Could not load the search index.';
+      return;
+    }
+    loadingEl.hidden = true;
+
+    function tokens(s) {
+      return (s.toLowerCase()
+        .normalize('NFD').replace(/\p{Diacritic}/gu, '')
+        .match(/[a-z0-9]+/g) || [])
+        .filter(t => t.length >= 2);
+    }
+
+    function escape(s) {
+      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function snippet(body, query) {
+      // Find the first body offset where any query token appears.
+      const lower = body.toLowerCase();
+      const norm = lower.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      let bestPos = -1;
+      let bestTok = null;
+      const qToks = tokens(query);
+      for (const t of qToks) {
+        const p = norm.indexOf(t);
+        if (p === -1) continue;
+        if (bestPos === -1 || p < bestPos) { bestPos = p; bestTok = t; }
+      }
+      let start = 0;
+      let text = body;
+      if (bestPos !== -1) {
+        start = Math.max(0, bestPos - 80);
+        // Backtrack to a space so we don't cut a word.
+        while (start > 0 && body[start] !== ' ' && start > bestPos - 120) start--;
+        text = (start > 0 ? '…' : '') + body.slice(start, start + 280);
+        if (start + 280 < body.length) text += '…';
+      } else {
+        text = body.slice(0, 260) + (body.length > 260 ? '…' : '');
+      }
+      // Escape, then highlight each token.
+      let esc = escape(text);
+      qToks.forEach(tok => {
+        const re = new RegExp('(' + tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        esc = esc.replace(re, '<mark>$1</mark>');
+      });
+      return esc;
+    }
+
+    function score(doc, qToks) {
+      const tLower = doc.title.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      const bLower = doc.body.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
+      let s = 0;
+      let allMatched = true;
+      for (const t of qToks) {
+        // Title hits are weighted much higher.
+        let titleHits = 0;
+        let idx = tLower.indexOf(t);
+        while (idx !== -1) { titleHits++; idx = tLower.indexOf(t, idx + t.length); }
+        let bodyHits = 0;
+        idx = bLower.indexOf(t);
+        while (idx !== -1) { bodyHits++; idx = bLower.indexOf(t, idx + t.length); }
+        if (titleHits === 0 && bodyHits === 0) { allMatched = false; break; }
+        s += titleHits * 12 + Math.min(bodyHits, 8);
+      }
+      if (!allMatched) return 0;
+      // Bonus for shorter, more focused documents (so chapter index pages don't always win).
+      s += Math.max(0, 6 - Math.floor(doc.body.length / 800));
+      return s;
+    }
+
+    function runSearch() {
+      const q = input.value.trim();
+      resultsEl.innerHTML = '';
+      emptyEl.hidden = true;
+      if (!q) {
+        countEl.textContent = 'Start typing to search the library.';
+        return;
+      }
+      const qToks = tokens(q);
+      if (qToks.length === 0) {
+        countEl.textContent = 'Type at least two letters.';
+        return;
+      }
+      let pool = docs;
+      if (activeScope) pool = pool.filter(d => d.vol === activeScope);
+      const scored = [];
+      for (const d of pool) {
+        const sc = score(d, qToks);
+        if (sc > 0) scored.push([sc, d]);
+      }
+      scored.sort((a, b) => b[0] - a[0]);
+      const top = scored.slice(0, 60);
+      if (top.length === 0) {
+        countEl.textContent = '0 results for "' + q + '"';
+        emptyEl.hidden = false;
+        return;
+      }
+      countEl.textContent = top.length + (scored.length > top.length ? '+ ' : ' ') + 'result' + (top.length === 1 ? '' : 's') + ' for "' + q + '"';
+      const frag = document.createDocumentFragment();
+      for (const [, d] of top) {
+        const li = document.createElement('li');
+        li.className = 'search-result';
+        const a = document.createElement('a');
+        a.href = d.url;
+        a.innerHTML = `
+          <p class="result-eyebrow">${escape(d.volLabel)} · ${escape(d.section)}</p>
+          <h3 class="result-title">${escape(d.title)}</h3>
+          <p class="result-snippet">${snippet(d.body, q)}</p>
+        `;
+        li.appendChild(a);
+        frag.appendChild(li);
+      }
+      resultsEl.appendChild(frag);
+    }
+
+    let debounceId = null;
+    input.addEventListener('input', () => {
+      if (debounceId) clearTimeout(debounceId);
+      debounceId = setTimeout(runSearch, 80);
+    });
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      input.focus();
+      runSearch();
+    });
+
+    // Allow ?q= deep linking.
+    const params = new URLSearchParams(window.location.search);
+    const initial = params.get('q');
+    if (initial) {
+      input.value = initial;
+      runSearch();
+    }
+    input.focus();
+  })();
+  </script>
+</body>
+</html>

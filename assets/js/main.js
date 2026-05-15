@@ -49,7 +49,27 @@
     });
     nav.appendChild(btn);
   }
-  function injectAll() { injectBibliographyLink(); injectThemeToggle(); }
+  // Site-wide Search link in the volume sub-nav. Depth-adjusted from the
+  // current path so a chapter page (two levels deep) reaches search.html too.
+  function injectSearchLink() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const VOLS = ['prussia','ottoman','east-germany','yugoslavia','persia','soviet-union','inca','congo-free-state','rome','cordoba','green-ukraine','jerusalem'];
+    const vol = parts.find(p => VOLS.includes(p));
+    if (!vol) return; // top-level pages already have the link in their HTML
+    const navLinks = document.querySelector('.nav-links');
+    if (!navLinks || navLinks.querySelector('[data-search-link]')) return;
+    const inChapter = parts.includes('chapters');
+    const href = inChapter ? '../../search.html' : '../search.html';
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = 'Search';
+    link.dataset.searchLink = '1';
+    const toggle = navLinks.querySelector('.theme-toggle');
+    if (toggle) navLinks.insertBefore(link, toggle);
+    else navLinks.appendChild(link);
+  }
+
+  function injectAll() { injectBibliographyLink(); injectSearchLink(); injectThemeToggle(); }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', injectAll);
   } else {
