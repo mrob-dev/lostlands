@@ -1,5 +1,61 @@
 // Lost Lands — interaction layer
 (function () {
+  // Theme: apply saved preference before anything paints, so the toggle
+  // doesn't flicker when navigating between pages.
+  try {
+    const saved = localStorage.getItem('lostlands.theme');
+    if (saved === 'dark' || saved === 'light') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+
+  // Inject the theme toggle button into the nav once the DOM is ready.
+  // Inject a Bibliography link into the volume sub-nav (skipped on the
+  // homepage and the timeline). Path is depth-adjusted so it works from
+  // both volume index pages and chapter pages.
+  function injectBibliographyLink() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const VOLS = ['prussia','ottoman','east-germany','yugoslavia','persia','soviet-union','inca','congo-free-state','rome','cordoba','green-ukraine','jerusalem'];
+    const vol = parts.find(p => VOLS.includes(p));
+    if (!vol) return;
+    const navLinks = document.querySelector('.nav-links');
+    if (!navLinks || navLinks.querySelector('[data-bib-link]')) return;
+    const inChapter = parts.includes('chapters');
+    const href = inChapter ? '../bibliography.html' : 'bibliography.html';
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = 'Sources';
+    link.dataset.bibLink = '1';
+    const toggle = navLinks.querySelector('.theme-toggle');
+    if (toggle) navLinks.insertBefore(link, toggle);
+    else navLinks.appendChild(link);
+  }
+
+  function injectThemeToggle() {
+    const nav = document.querySelector('.nav-links');
+    if (!nav || nav.querySelector('.theme-toggle')) return;
+    const btn = document.createElement('button');
+    btn.className = 'theme-toggle';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Toggle light and dark mode');
+    btn.innerHTML = '<span class="theme-toggle-dot"></span>';
+    btn.addEventListener('click', () => {
+      const root = document.documentElement;
+      const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const cur = root.getAttribute('data-theme') || (sysDark ? 'dark' : 'light');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('lostlands.theme', next); } catch (e) {}
+    });
+    nav.appendChild(btn);
+  }
+  function injectAll() { injectBibliographyLink(); injectThemeToggle(); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectAll);
+  } else {
+    injectAll();
+  }
+
   // Scroll progress bar
   const bar = document.querySelector('.scroll-progress');
   if (bar) {
@@ -24,4 +80,181 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
   document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+
+  // ===========================================================
+  // Reading progress tracker
+  // -----------------------------------------------------------
+  // Tracks which chapters have been read per volume in localStorage.
+  // On chapter pages: marks the chapter as read when the foot-nav
+  //   becomes visible (i.e. the user has reached the end).
+  // On volume index pages: renders a progress bar and per-chapter
+  //   read markers in the table of contents.
+  // On the homepage: surfaces a "Continue reading" banner that links
+  //   back to the last-seen chapter.
+  // ===========================================================
+  const STORAGE_KEY = 'lostlands.progress.v1';
+  const VOLUMES = [
+    'prussia','ottoman','east-germany','yugoslavia','persia','soviet-union',
+    'inca','congo-free-state','rome','cordoba','green-ukraine','jerusalem',
+  ];
+  const VOLUME_NAMES = {
+    'prussia': 'Prussia',
+    'ottoman': 'The Ottoman Empire',
+    'east-germany': 'East Germany',
+    'yugoslavia': 'Yugoslavia',
+    'persia': 'Persia',
+    'soviet-union': 'The Soviet Union',
+    'inca': 'The Inca Empire',
+    'congo-free-state': 'The Congo Free State',
+    'rome': 'The Roman Empire',
+    'cordoba': 'The Caliphate of Córdoba',
+    'green-ukraine': 'Green Ukraine',
+    'jerusalem': 'The Kingdom of Jerusalem',
+  };
+
+  function readState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { volumes: {}, lastSeen: null };
+      const parsed = JSON.parse(raw);
+      if (!parsed.volumes) parsed.volumes = {};
+      return parsed;
+    } catch (e) {
+      return { volumes: {}, lastSeen: null };
+    }
+  }
+  function writeState(data) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  function pathParts() {
+    return window.location.pathname.split('/').filter(Boolean);
+  }
+  function getVolumeId() {
+    for (const p of pathParts()) if (VOLUMES.includes(p)) return p;
+    return null;
+  }
+  function getChapterId() {
+    const parts = pathParts();
+    const i = parts.indexOf('chapters');
+    if (i < 0 || i + 1 >= parts.length) return null;
+    return parts[i + 1].replace(/\.html$/, '');
+  }
+  function isVolumeIndex() {
+    const parts = pathParts();
+    if (parts.length === 0) return false;
+    const last = parts[parts.length - 1];
+    return getVolumeId() && (last === 'index.html' || VOLUMES.includes(last));
+  }
+  function isHomepage() {
+    const parts = pathParts();
+    if (parts.length === 0) return true;
+    if (parts.length === 1 && parts[0] === 'index.html') return true;
+    return false;
+  }
+
+  // ---- chapter pages ----
+  const chapterId = getChapterId();
+  const volumeId = getVolumeId();
+  if (chapterId && volumeId) {
+    // Always update lastSeen on visit
+    const data = readState();
+    data.lastSeen = { vol: volumeId, chap: chapterId, ts: Date.now() };
+    writeState(data);
+
+    // Mark read when the foot-nav is in view
+    const endMarker = document.querySelector('.chap-foot');
+    if (endMarker && 'IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const cur = readState();
+            if (!cur.volumes[volumeId]) cur.volumes[volumeId] = [];
+            if (!cur.volumes[volumeId].includes(chapterId)) {
+              cur.volumes[volumeId].push(chapterId);
+            }
+            cur.lastSeen = { vol: volumeId, chap: chapterId, ts: Date.now() };
+            writeState(cur);
+            obs.disconnect();
+          }
+        }
+      }, { threshold: 0.25 });
+      obs.observe(endMarker);
+    }
+  }
+
+  // ---- volume index pages ----
+  if (isVolumeIndex() && document.querySelector('.toc')) {
+    const vol = getVolumeId();
+    const data = readState();
+    const readSet = new Set(data.volumes[vol] || []);
+    let total = 0, readCount = 0, firstUnreadHref = null;
+    document.querySelectorAll('.toc-item').forEach(item => {
+      const a = item.querySelector('.toc-link');
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      const m = href.match(/chapters\/(.+)\.html/);
+      if (!m) return;
+      total++;
+      const chap = m[1];
+      const indicator = document.createElement('span');
+      indicator.className = 'toc-progress';
+      if (readSet.has(chap)) {
+        indicator.classList.add('is-read');
+        readCount++;
+      } else if (!firstUnreadHref) {
+        firstUnreadHref = href;
+      }
+      const numSpan = a.querySelector('.toc-num');
+      if (numSpan) {
+        numSpan.insertBefore(indicator, numSpan.firstChild);
+      } else {
+        a.insertBefore(indicator, a.firstChild);
+      }
+    });
+    if (total > 0) {
+      const pct = Math.round((readCount / total) * 100);
+      const wrap = document.createElement('div');
+      wrap.className = 'toc-progress-summary';
+      wrap.innerHTML = `
+        <p class="toc-progress-eyebrow">Your progress</p>
+        <p class="toc-progress-count">${readCount} of ${total} chapters read &nbsp;·&nbsp; ${pct}%</p>
+        <div class="toc-progress-bar"><div class="toc-progress-bar-fill" style="width:${pct}%"></div></div>
+        ${firstUnreadHref && readCount > 0
+          ? `<a class="toc-progress-resume" href="${firstUnreadHref}">Continue from the next unread chapter →</a>`
+          : ''}
+      `;
+      const toc = document.querySelector('.toc');
+      toc.parentNode.insertBefore(wrap, toc);
+    }
+  }
+
+  // ---- homepage ----
+  if (isHomepage()) {
+    const data = readState();
+    const ls = data.lastSeen;
+    if (ls && ls.vol && VOLUME_NAMES[ls.vol]) {
+      const banner = document.createElement('a');
+      banner.className = 'resume-banner';
+      let href, label;
+      if (ls.chap) {
+        href = `${ls.vol}/chapters/${ls.chap}.html`;
+        const chapTitle = ls.chap.replace(/^\d+-/, '').replace(/-/g, ' ');
+        label = `${VOLUME_NAMES[ls.vol]} &nbsp;·&nbsp; <span>${chapTitle}</span>`;
+      } else {
+        href = `${ls.vol}/index.html`;
+        label = VOLUME_NAMES[ls.vol];
+      }
+      banner.href = href;
+      banner.innerHTML = `
+        <div class="resume-banner-inner">
+          <p class="resume-banner-eyebrow">Continue reading</p>
+          <p class="resume-banner-title">${label}</p>
+        </div>
+        <span class="resume-banner-arrow">→</span>
+      `;
+      const hero = document.querySelector('.hero');
+      if (hero && hero.parentNode) hero.parentNode.insertBefore(banner, hero.nextSibling);
+    }
+  }
 })();

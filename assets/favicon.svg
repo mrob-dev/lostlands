@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Lost Lands — logo / favicon.
+  A square with its top-right quadrant removed: a complete form whose
+  upper-right has been lost. The shape reads as either "Γ" (an inverted
+  L, the project's monogram) or as a country with a corner missing.
+  Solid ink colour on transparent background; scales without loss to
+  any size.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <path d="M 2 2 L 14 2 L 14 14 L 30 14 L 30 30 L 2 30 Z" fill="#292929"/>
+</svg>
