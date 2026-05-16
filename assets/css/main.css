@@ -551,7 +551,7 @@ hr.ornament {
 }
 .globe-canvas {
   width: 100%;
-  height: 760px;
+  height: 880px;
   display: block;
   touch-action: none;
   cursor: grab;

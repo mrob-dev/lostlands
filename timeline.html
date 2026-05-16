@@ -26,8 +26,8 @@
 
   <header class="hero" style="padding-top: 100px;">
     <div>
-      <p class="hero-eyebrow">All fifteen volumes &nbsp;·&nbsp; A single axis</p>
-      <h1 class="hero-title">The Timeline.<br/><em>2,557 years, fifteen bands.</em></h1>
+      <p class="hero-eyebrow">All twenty-two volumes &nbsp;·&nbsp; A single axis</p>
+      <h1 class="hero-title">The Timeline.<br/><em>2,557 years, twenty-two bands.</em></h1>
       <p class="hero-sub">Every lost state in the library, laid out on a single horizontal time axis. From the proclamation of Cyrus the Great in approximately 550 BC to the dissolution of Yugoslavia in 2003. The scale is piecewise: ancient and early-medieval centuries are compressed, the early-modern and modern centuries are stretched, so a five-year state like Green Ukraine sits beside its much longer neighbours at a width you can still read.</p>
     </div>
   </header>
@@ -126,19 +126,26 @@
 
   const STATES = [
     { id: 'persia',            name: 'Persia',                              start: -550, end: 1979, vol: 'V',     color: '#c47a3a', href: 'persia/index.html'             },
+    { id: 'byzantine',         name: 'The Byzantine Empire',                start:  330, end: 1453, vol: 'XXII',  color: '#8a3a72', href: 'byzantine/index.html'          },
     { id: 'rome',              name: 'The Roman Empire',                    start: -27,  end: 1453, vol: 'IX',    color: '#8c2a25', href: 'rome/index.html'               },
     { id: 'venice',            name: 'The Republic of Venice',              start: 697,  end: 1797, vol: 'XIII',  color: '#a23b3b', href: 'venice/index.html'             },
+    { id: 'holy-roman-empire', name: 'The Holy Roman Empire',               start: 962,  end: 1806, vol: 'XVII',  color: '#8d4d2c', href: 'holy-roman-empire/index.html'  },
     { id: 'cordoba',           name: 'The Caliphate of Córdoba',            start: 929,  end: 1031, vol: 'X',     color: '#6f7d36', href: 'cordoba/index.html'            },
     { id: 'jerusalem',         name: 'The Kingdom of Jerusalem',            start: 1099, end: 1291, vol: 'XII',   color: '#c4a849', href: 'jerusalem/index.html'          },
     { id: 'ottoman',           name: 'The Ottoman Empire',                  start: 1299, end: 1922, vol: 'II',    color: '#2a5e3a', href: 'ottoman/index.html'            },
     { id: 'inca',              name: 'The Inca Empire',                     start: 1438, end: 1572, vol: 'VII',   color: '#d4a437', href: 'inca/index.html'               },
     { id: 'prussia',           name: 'Prussia',                             start: 1525, end: 1947, vol: 'I',     color: '#1d1d1d', href: 'prussia/index.html'            },
     { id: 'poland-lithuania',  name: 'The Polish-Lithuanian Commonwealth',  start: 1569, end: 1795, vol: 'XIV',   color: '#c52d2d', href: 'poland-lithuania/index.html'   },
+    { id: 'gran-colombia',     name: 'Gran Colombia',                       start: 1819, end: 1831, vol: 'XIX',   color: '#2671b0', href: 'gran-colombia/index.html'      },
+    { id: 'republic-of-texas', name: 'The Republic of Texas',               start: 1836, end: 1846, vol: 'XXI',   color: '#2a4d6e', href: 'republic-of-texas/index.html'  },
+    { id: 'confederacy',       name: 'The Confederate States of America',   start: 1861, end: 1865, vol: 'XVIII', color: '#5a3338', href: 'confederacy/index.html'        },
     { id: 'congo-free-state',  name: 'The Congo Free State',                start: 1885, end: 1908, vol: 'VIII',  color: '#b54a32', href: 'congo-free-state/index.html'   },
     { id: 'green-ukraine',     name: 'Green Ukraine',                       start: 1917, end: 1922, vol: 'XI',    color: '#4d8c52', href: 'green-ukraine/index.html'      },
     { id: 'yugoslavia',        name: 'Yugoslavia',                          start: 1918, end: 2003, vol: 'IV',    color: '#2a5990', href: 'yugoslavia/index.html'         },
     { id: 'soviet-union',      name: 'The Soviet Union',                    start: 1922, end: 1991, vol: 'VI',    color: '#b21b1b', href: 'soviet-union/index.html'       },
+    { id: 'nazi-germany',      name: 'Nazi Germany',                        start: 1933, end: 1945, vol: 'XVI',   color: '#6e0c0c', href: 'nazi-germany/index.html'       },
     { id: 'east-germany',      name: 'East Germany',                        start: 1949, end: 1990, vol: 'III',   color: '#c8a02e', href: 'east-germany/index.html'       },
+    { id: 'south-vietnam',     name: 'South Vietnam',                       start: 1955, end: 1975, vol: 'XX',    color: '#f0c040', href: 'south-vietnam/index.html'      },
     { id: 'rhodesia',          name: 'Rhodesia',                            start: 1965, end: 1979, vol: 'XV',    color: '#2d6033', href: 'rhodesia/index.html'           },
   ];
 

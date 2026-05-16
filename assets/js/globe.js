@@ -18,21 +18,28 @@ if (!container) { /* page does not include the globe */ } else {
   // `color` matches the colour used on the timeline; `years` is shown
   // in the on-globe legend.
   const VOLUMES = [
-    { id: 'prussia',           vol: 'I',    name: 'Prussia',                            lat: 54.71, lon:  20.51, color: '#1d1d1d', years: '1525 – 1947',     href: 'prussia/index.html'           },
-    { id: 'ottoman',           vol: 'II',   name: 'The Ottoman Empire',                 lat: 41.01, lon:  28.97, color: '#2a5e3a', years: '1299 – 1922',     href: 'ottoman/index.html'           },
-    { id: 'east-germany',      vol: 'III',  name: 'East Germany',                       lat: 52.52, lon:  13.40, color: '#c8a02e', years: '1949 – 1990',     href: 'east-germany/index.html'      },
-    { id: 'yugoslavia',        vol: 'IV',   name: 'Yugoslavia',                         lat: 44.81, lon:  20.46, color: '#2a5990', years: '1918 – 2003',     href: 'yugoslavia/index.html'        },
-    { id: 'persia',            vol: 'V',    name: 'Persia',                             lat: 32.66, lon:  51.68, color: '#c47a3a', years: '550 BC – 1979',   href: 'persia/index.html'            },
-    { id: 'soviet-union',      vol: 'VI',   name: 'The Soviet Union',                   lat: 55.75, lon:  37.62, color: '#b21b1b', years: '1922 – 1991',     href: 'soviet-union/index.html'      },
-    { id: 'inca',              vol: 'VII',  name: 'The Inca Empire',                    lat: -13.52,lon: -71.97, color: '#d4a437', years: '1438 – 1572',     href: 'inca/index.html'              },
-    { id: 'congo-free-state',  vol: 'VIII', name: 'The Congo Free State',               lat: -4.32, lon:  15.32, color: '#b54a32', years: '1885 – 1908',     href: 'congo-free-state/index.html'  },
-    { id: 'rome',              vol: 'IX',   name: 'The Roman Empire',                   lat: 41.90, lon:  12.50, color: '#8c2a25', years: '27 BC – 1453',    href: 'rome/index.html'              },
-    { id: 'cordoba',           vol: 'X',    name: 'The Caliphate of Córdoba',           lat: 37.88, lon:  -4.78, color: '#6f7d36', years: '929 – 1031',      href: 'cordoba/index.html'           },
-    { id: 'green-ukraine',     vol: 'XI',   name: 'Green Ukraine',                      lat: 48.48, lon: 135.08, color: '#4d8c52', years: '1917 – 1922',     href: 'green-ukraine/index.html'     },
-    { id: 'jerusalem',         vol: 'XII',  name: 'The Kingdom of Jerusalem',           lat: 31.78, lon:  35.21, color: '#c4a849', years: '1099 – 1291',     href: 'jerusalem/index.html'         },
-    { id: 'venice',            vol: 'XIII', name: 'The Republic of Venice',             lat: 45.44, lon:  12.32, color: '#a23b3b', years: '697 – 1797',      href: 'venice/index.html'            },
-    { id: 'poland-lithuania',  vol: 'XIV',  name: 'The Polish-Lithuanian Commonwealth', lat: 52.23, lon:  21.01, color: '#c52d2d', years: '1569 – 1795',     href: 'poland-lithuania/index.html'  },
-    { id: 'rhodesia',          vol: 'XV',   name: 'Rhodesia',                           lat: -17.83,lon:  31.05, color: '#2d6033', years: '1965 – 1979',     href: 'rhodesia/index.html'          },
+    { id: 'prussia',           vol: 'I',     name: 'Prussia',                            lat: 54.71, lon:  20.51, color: '#1d1d1d', years: '1525 – 1947',     href: 'prussia/index.html'           },
+    { id: 'ottoman',           vol: 'II',    name: 'The Ottoman Empire',                 lat: 41.68, lon:  26.55, color: '#2a5e3a', years: '1299 – 1922',     href: 'ottoman/index.html'           },
+    { id: 'east-germany',      vol: 'III',   name: 'East Germany',                       lat: 52.52, lon:  13.40, color: '#c8a02e', years: '1949 – 1990',     href: 'east-germany/index.html'      },
+    { id: 'yugoslavia',        vol: 'IV',    name: 'Yugoslavia',                         lat: 44.81, lon:  20.46, color: '#2a5990', years: '1918 – 2003',     href: 'yugoslavia/index.html'        },
+    { id: 'persia',            vol: 'V',     name: 'Persia',                             lat: 32.66, lon:  51.68, color: '#c47a3a', years: '550 BC – 1979',   href: 'persia/index.html'            },
+    { id: 'soviet-union',      vol: 'VI',    name: 'The Soviet Union',                   lat: 55.75, lon:  37.62, color: '#b21b1b', years: '1922 – 1991',     href: 'soviet-union/index.html'      },
+    { id: 'inca',              vol: 'VII',   name: 'The Inca Empire',                    lat: -13.52,lon: -71.97, color: '#d4a437', years: '1438 – 1572',     href: 'inca/index.html'              },
+    { id: 'congo-free-state',  vol: 'VIII',  name: 'The Congo Free State',               lat: -4.32, lon:  15.32, color: '#b54a32', years: '1885 – 1908',     href: 'congo-free-state/index.html'  },
+    { id: 'rome',              vol: 'IX',    name: 'The Roman Empire',                   lat: 41.90, lon:  12.50, color: '#8c2a25', years: '27 BC – 1453',    href: 'rome/index.html'              },
+    { id: 'cordoba',           vol: 'X',     name: 'The Caliphate of Córdoba',           lat: 37.88, lon:  -4.78, color: '#6f7d36', years: '929 – 1031',      href: 'cordoba/index.html'           },
+    { id: 'green-ukraine',     vol: 'XI',    name: 'Green Ukraine',                      lat: 48.48, lon: 135.08, color: '#4d8c52', years: '1917 – 1922',     href: 'green-ukraine/index.html'     },
+    { id: 'jerusalem',         vol: 'XII',   name: 'The Kingdom of Jerusalem',           lat: 31.78, lon:  35.21, color: '#c4a849', years: '1099 – 1291',     href: 'jerusalem/index.html'         },
+    { id: 'venice',            vol: 'XIII',  name: 'The Republic of Venice',             lat: 45.44, lon:  12.32, color: '#a23b3b', years: '697 – 1797',      href: 'venice/index.html'            },
+    { id: 'poland-lithuania',  vol: 'XIV',   name: 'The Polish-Lithuanian Commonwealth', lat: 52.23, lon:  21.01, color: '#c52d2d', years: '1569 – 1795',     href: 'poland-lithuania/index.html'  },
+    { id: 'rhodesia',          vol: 'XV',    name: 'Rhodesia',                           lat: -17.83,lon:  31.05, color: '#2d6033', years: '1965 – 1979',     href: 'rhodesia/index.html'          },
+    { id: 'nazi-germany',      vol: 'XVI',   name: 'Nazi Germany',                       lat: 49.45, lon:  11.08, color: '#6e0c0c', years: '1933 – 1945',     href: 'nazi-germany/index.html'      },
+    { id: 'holy-roman-empire', vol: 'XVII',  name: 'The Holy Roman Empire',              lat: 48.21, lon:  16.37, color: '#8d4d2c', years: '962 – 1806',      href: 'holy-roman-empire/index.html' },
+    { id: 'confederacy',       vol: 'XVIII', name: 'The Confederate States of America', lat: 37.54, lon: -77.43, color: '#5a3338', years: '1861 – 1865',     href: 'confederacy/index.html'       },
+    { id: 'gran-colombia',     vol: 'XIX',   name: 'Gran Colombia',                      lat:  4.71, lon: -74.07, color: '#2671b0', years: '1819 – 1831',     href: 'gran-colombia/index.html'     },
+    { id: 'south-vietnam',     vol: 'XX',    name: 'South Vietnam',                      lat: 10.78, lon: 106.70, color: '#f0c040', years: '1955 – 1975',     href: 'south-vietnam/index.html'     },
+    { id: 'republic-of-texas', vol: 'XXI',   name: 'The Republic of Texas',              lat: 30.27, lon: -97.74, color: '#2a4d6e', years: '1836 – 1846',     href: 'republic-of-texas/index.html' },
+    { id: 'byzantine',         vol: 'XXII',  name: 'The Byzantine Empire',               lat: 41.01, lon:  28.97, color: '#8a3a72', years: '330 – 1453',      href: 'byzantine/index.html'         },
   ];
 
   // ===== Approximate territorial boundary polygons =====
@@ -221,6 +228,74 @@ if (!container) { /* page does not include the globe */ } else {
       [-20.50, 32.50], [-21.50, 31.80], [-22.20, 31.20], [-22.30, 30.30], [-22.30, 29.40],
       [-22.00, 28.00], [-21.50, 27.40], [-20.50, 26.40], [-19.50, 26.00], [-18.50, 25.40],
       [-17.80, 25.80], [-17.00, 26.10], [-16.30, 26.10],
+    ],
+
+    // Nazi Germany (Großdeutsches Reich) c. 1941 — the Reich plus
+    // Austria, Sudetenland, the Polish corridor and Wartheland, Memel.
+    'nazi-germany': [
+      [55.30,  5.50], [54.50,  8.50], [54.90, 11.00], [54.70, 13.50], [55.00, 16.50],
+      [54.90, 20.00], [55.40, 21.00], [53.50, 23.50], [52.50, 23.50], [51.50, 24.00],
+      [50.50, 23.00], [49.50, 22.00], [48.60, 22.50], [48.00, 18.00], [47.60, 16.50],
+      [47.00, 15.00], [46.50, 12.00], [46.70,  9.50], [47.50,  7.50], [48.00,  6.00],
+      [49.00,  5.50], [51.00,  5.70], [53.00,  5.50],
+    ],
+
+    // Holy Roman Empire at peak (~13th century) — central Europe with
+    // northern Italy and Burgundian fringes. Simplified outer contour.
+    'holy-roman-empire': [
+      [54.50,  8.50], [54.50, 14.50], [53.00, 16.50], [51.50, 18.50], [50.00, 19.00],
+      [49.00, 18.00], [48.00, 17.00], [47.00, 16.00], [46.00, 14.00], [45.00, 12.00],
+      [44.00,  9.00], [43.50,  7.00], [44.50,  6.50], [46.00,  5.50], [47.50,  5.50],
+      [49.00,  5.50], [50.50,  4.50], [51.50,  4.00], [52.50,  4.50], [53.50,  6.00],
+      [54.00,  7.50],
+    ],
+
+    // Confederate States of America (11 seceded states), 1861–1865.
+    'confederacy': [
+      [36.50, -94.00], [33.00, -94.00], [31.50, -97.00], [29.50, -98.50], [27.50, -97.50],
+      [26.00, -97.00], [29.00, -94.00], [30.00, -89.00], [29.00, -89.50], [30.00, -87.50],
+      [29.00, -84.00], [25.50, -81.00], [25.50, -80.50], [29.50, -81.50], [32.00, -80.80],
+      [33.00, -78.50], [35.50, -75.00], [37.50, -76.00], [38.00, -77.00], [39.00, -77.50],
+      [39.50, -78.50], [37.00, -82.50], [36.50, -86.00], [36.50, -90.00],
+    ],
+
+    // Gran Colombia (1819–1831) — modern Colombia, Venezuela, Ecuador,
+    // Panama.
+    'gran-colombia': [
+      [12.00, -71.50], [12.00, -69.00], [11.00, -65.00], [10.50, -62.00], [ 8.50, -60.50],
+      [ 4.50, -60.50], [ 1.50, -65.00], [-0.50, -69.00], [-3.00, -71.00], [-4.50, -78.00],
+      [-3.00, -80.50], [ 0.00, -80.50], [ 4.00, -77.50], [ 7.50, -78.00], [ 9.00, -82.00],
+      [11.50, -79.00], [11.50, -75.00],
+    ],
+
+    // South Vietnam (1955–1975) — south of the 17th parallel.
+    'south-vietnam': [
+      [17.00, 105.00], [17.00, 107.50], [16.00, 108.50], [14.50, 109.50], [13.00, 109.50],
+      [11.00, 109.00], [ 9.00, 106.00], [ 8.50, 104.50], [10.00, 104.50], [12.00, 105.50],
+      [14.00, 106.00], [15.00, 107.00],
+    ],
+
+    // Republic of Texas (1836–1846), claimed boundaries — extending
+    // far north and west into modern New Mexico, Colorado, Wyoming.
+    'republic-of-texas': [
+      [42.00, -106.50], [42.00, -103.00], [37.00, -103.00], [37.00, -100.00], [36.50, -100.00],
+      [36.50,  -94.00], [33.50,  -94.00], [31.00,  -94.50], [29.50,  -94.00], [28.00,  -97.00],
+      [25.50,  -97.00], [26.00,  -99.00], [29.00, -101.00], [30.00, -103.00], [32.00, -106.50],
+      [35.00, -106.50], [37.00, -106.50],
+    ],
+
+    // Byzantine Empire at Justinian's peak (~565 AD) — simplified
+    // contiguous core including Anatolia, the Levant, Egypt, North
+    // Africa, southern Italy and the Aegean. Spanish reconquests are
+    // omitted as non-contiguous.
+    'byzantine': [
+      [44.50, 12.50], [44.50, 19.50], [42.50, 22.50], [40.50, 22.50], [38.50, 22.50],
+      [36.50, 23.00], [35.50, 26.50], [36.00, 30.00], [37.50, 34.00], [38.50, 36.50],
+      [40.00, 37.50], [41.00, 40.00], [40.00, 41.50], [37.00, 42.50], [35.50, 41.00],
+      [34.00, 38.50], [32.50, 35.00], [31.00, 34.00], [29.50, 32.50], [30.50, 30.00],
+      [32.50, 27.00], [33.00, 22.50], [33.50, 18.00], [34.50, 12.50], [35.50, 11.50],
+      [36.50, 10.50], [37.00,  9.50], [38.50,  9.00], [40.00,  9.00], [42.00,  9.50],
+      [43.00, 11.50],
     ],
   };
 
