@@ -26,9 +26,9 @@
 
   <header class="hero" style="padding-top: 100px;">
     <div>
-      <p class="hero-eyebrow">All twelve volumes &nbsp;·&nbsp; A single axis</p>
-      <h1 class="hero-title">The Timeline.<br/><em>2,557 years, twelve bands.</em></h1>
-      <p class="hero-sub">Every lost state in the library, laid out on a single horizontal time axis. From the proclamation of Cyrus the Great in approximately 550 BC to the dissolution of Yugoslavia in 2003. The overlaps are the point: Persia, the Roman Empire, the Caliphate of Córdoba, the Kingdom of Jerusalem and the Ottoman Empire all coexisted in the eleventh century, and four of the twelve states ended in the twenty-five years between 1908 and 1991.</p>
+      <p class="hero-eyebrow">All fifteen volumes &nbsp;·&nbsp; A single axis</p>
+      <h1 class="hero-title">The Timeline.<br/><em>2,557 years, fifteen bands.</em></h1>
+      <p class="hero-sub">Every lost state in the library, laid out on a single horizontal time axis. From the proclamation of Cyrus the Great in approximately 550 BC to the dissolution of Yugoslavia in 2003. The scale is piecewise: ancient and early-medieval centuries are compressed, the early-modern and modern centuries are stretched, so a five-year state like Green Ukraine sits beside its much longer neighbours at a width you can still read.</p>
     </div>
   </header>
 
@@ -47,7 +47,7 @@
 
     <div class="timeline-key">
       <p class="timeline-key-eyebrow">A note on the scale</p>
-      <p>The scale is linear. Persia's 2,529 years occupy more than ninety-five percent of the width; Green Ukraine's five years occupy less than a fifth of one percent. Bands shorter than a quarter-century are drawn at minimum width so they remain visible; their actual durations are preserved in the date labels.</p>
+      <p>The scale is piecewise linear, with five breakpoints at 550 BC, 500 AD, 1000, 1500, 1800 and 2050. Each successive era is given more horizontal space than the strictly linear distribution would assign, so the modern fifth of the timeline — where eight of the fifteen states sit — is stretched and legible. The bar widths therefore preserve <em>relative</em> duration within each era rather than across the whole axis. The name of each state floats outside its bar so even ten-year spans are fully labelled.</p>
     </div>
   </section>
 
@@ -95,27 +95,51 @@
   <script src="assets/js/main.js"></script>
   <script>
   // ===== Timeline rendering =====
-  // The bands are positioned with absolute coordinates against a track of
-  // known width. Year zero is treated as a real year here (it is not
-  // historically; the year sequence runs 1 BC → 1 AD with no zero) for
-  // arithmetic convenience.
-  const TIMELINE_START = -550;   // 550 BC
-  const TIMELINE_END   = 2050;
-  const TIMELINE_SPAN  = TIMELINE_END - TIMELINE_START;   // 2600
+  // Each state gets a row of fixed height. The bar shows the time span
+  // and the label floats next to it (right side by default, left side
+  // when the bar's right edge is past a threshold). Year zero is treated
+  // as an arithmetic year here for convenience (it is not historically;
+  // the sequence runs 1 BC → 1 AD with no zero).
+
+  // Piecewise-linear scale. Each segment maps a real year range onto a
+  // share of the horizontal axis so the modern era — where most of the
+  // library sits — receives generously more room than ancient eras.
+  const BREAKS = [
+    { year: -550, pct:   0 },
+    { year:  500, pct:  18 },
+    { year: 1000, pct:  32 },
+    { year: 1500, pct:  48 },
+    { year: 1800, pct:  70 },
+    { year: 2050, pct: 100 },
+  ];
+  function yearToPct(y) {
+    if (y <= BREAKS[0].year) return 0;
+    for (let i = 0; i < BREAKS.length - 1; i++) {
+      const a = BREAKS[i], b = BREAKS[i + 1];
+      if (y <= b.year) {
+        const t = (y - a.year) / (b.year - a.year);
+        return a.pct + t * (b.pct - a.pct);
+      }
+    }
+    return 100;
+  }
 
   const STATES = [
-    { id: 'persia',           name: 'Persia',                    start: -550, end: 1979, vol: 'V',    href: 'persia/index.html'          },
-    { id: 'rome',             name: 'The Roman Empire',          start: -27,  end: 1453, vol: 'IX',   href: 'rome/index.html'            },
-    { id: 'cordoba',          name: 'The Caliphate of Córdoba',  start: 929,  end: 1031, vol: 'X',    href: 'cordoba/index.html'         },
-    { id: 'jerusalem',        name: 'The Kingdom of Jerusalem',  start: 1099, end: 1291, vol: 'XII',  href: 'jerusalem/index.html'       },
-    { id: 'ottoman',          name: 'The Ottoman Empire',        start: 1299, end: 1922, vol: 'II',   href: 'ottoman/index.html'         },
-    { id: 'inca',             name: 'The Inca Empire',           start: 1438, end: 1572, vol: 'VII',  href: 'inca/index.html'            },
-    { id: 'prussia',          name: 'Prussia',                   start: 1525, end: 1947, vol: 'I',    href: 'prussia/index.html'         },
-    { id: 'congo-free-state', name: 'The Congo Free State',      start: 1885, end: 1908, vol: 'VIII', href: 'congo-free-state/index.html'},
-    { id: 'green-ukraine',    name: 'Green Ukraine',             start: 1917, end: 1922, vol: 'XI',   href: 'green-ukraine/index.html'   },
-    { id: 'yugoslavia',       name: 'Yugoslavia',                start: 1918, end: 2003, vol: 'IV',   href: 'yugoslavia/index.html'      },
-    { id: 'soviet-union',     name: 'The Soviet Union',          start: 1922, end: 1991, vol: 'VI',   href: 'soviet-union/index.html'    },
-    { id: 'east-germany',     name: 'East Germany',              start: 1949, end: 1990, vol: 'III',  href: 'east-germany/index.html'    },
+    { id: 'persia',            name: 'Persia',                              start: -550, end: 1979, vol: 'V',     color: '#c47a3a', href: 'persia/index.html'             },
+    { id: 'rome',              name: 'The Roman Empire',                    start: -27,  end: 1453, vol: 'IX',    color: '#8c2a25', href: 'rome/index.html'               },
+    { id: 'venice',            name: 'The Republic of Venice',              start: 697,  end: 1797, vol: 'XIII',  color: '#a23b3b', href: 'venice/index.html'             },
+    { id: 'cordoba',           name: 'The Caliphate of Córdoba',            start: 929,  end: 1031, vol: 'X',     color: '#6f7d36', href: 'cordoba/index.html'            },
+    { id: 'jerusalem',         name: 'The Kingdom of Jerusalem',            start: 1099, end: 1291, vol: 'XII',   color: '#c4a849', href: 'jerusalem/index.html'          },
+    { id: 'ottoman',           name: 'The Ottoman Empire',                  start: 1299, end: 1922, vol: 'II',    color: '#2a5e3a', href: 'ottoman/index.html'            },
+    { id: 'inca',              name: 'The Inca Empire',                     start: 1438, end: 1572, vol: 'VII',   color: '#d4a437', href: 'inca/index.html'               },
+    { id: 'prussia',           name: 'Prussia',                             start: 1525, end: 1947, vol: 'I',     color: '#1d1d1d', href: 'prussia/index.html'            },
+    { id: 'poland-lithuania',  name: 'The Polish-Lithuanian Commonwealth',  start: 1569, end: 1795, vol: 'XIV',   color: '#c52d2d', href: 'poland-lithuania/index.html'   },
+    { id: 'congo-free-state',  name: 'The Congo Free State',                start: 1885, end: 1908, vol: 'VIII',  color: '#b54a32', href: 'congo-free-state/index.html'   },
+    { id: 'green-ukraine',     name: 'Green Ukraine',                       start: 1917, end: 1922, vol: 'XI',    color: '#4d8c52', href: 'green-ukraine/index.html'      },
+    { id: 'yugoslavia',        name: 'Yugoslavia',                          start: 1918, end: 2003, vol: 'IV',    color: '#2a5990', href: 'yugoslavia/index.html'         },
+    { id: 'soviet-union',      name: 'The Soviet Union',                    start: 1922, end: 1991, vol: 'VI',    color: '#b21b1b', href: 'soviet-union/index.html'       },
+    { id: 'east-germany',      name: 'East Germany',                        start: 1949, end: 1990, vol: 'III',   color: '#c8a02e', href: 'east-germany/index.html'       },
+    { id: 'rhodesia',          name: 'Rhodesia',                            start: 1965, end: 1979, vol: 'XV',    color: '#2d6033', href: 'rhodesia/index.html'           },
   ];
 
   function formatYear(y) {
@@ -123,33 +147,44 @@
     return y + '';
   }
 
-  function yearToPct(y) {
-    return ((y - TIMELINE_START) / TIMELINE_SPAN) * 100;
-  }
-
   const track = document.getElementById('timeline-track');
-  STATES.forEach((s, i) => {
-    const a = document.createElement('a');
-    a.className = 'timeline-band';
-    a.href = s.href;
+  // Threshold (in % of width) beyond which a right-side label would
+  // run off the page; for those rows we flip the label to the left.
+  const LABEL_FLIP_PCT = 62;
+  STATES.forEach((s) => {
+    const row = document.createElement('a');
+    row.className = 'timeline-row';
+    row.href = s.href;
+    row.style.setProperty('--state-color', s.color);
+
     const leftPct = yearToPct(s.start);
-    const widthPct = yearToPct(s.end) - leftPct;
-    a.style.left = leftPct + '%';
-    a.style.width = widthPct + '%';
-    a.style.top = (i * 38) + 'px';
-    a.innerHTML = `
-      <span class="timeline-band-num">Vol. ${s.vol}</span>
-      <span class="timeline-band-name">${s.name}</span>
-      <span class="timeline-band-dates">${formatYear(s.start)} – ${formatYear(s.end)}</span>
-    `;
-    track.appendChild(a);
+    const rightPct = yearToPct(s.end);
+    const widthPct = Math.max(rightPct - leftPct, 0.3);
+
+    const bar = document.createElement('span');
+    bar.className = 'timeline-bar';
+    bar.style.left = leftPct + '%';
+    bar.style.width = widthPct + '%';
+    row.appendChild(bar);
+
+    const label = document.createElement('span');
+    label.className = 'timeline-row-label';
+    label.innerHTML = `<span class="vol">Vol. ${s.vol}</span><span class="name">${s.name}</span><span class="dates">${formatYear(s.start)} – ${formatYear(s.end)}</span>`;
+    if (rightPct > LABEL_FLIP_PCT) {
+      // Anchor to the left edge of the bar, growing leftward.
+      label.style.right = (100 - leftPct) + '%';
+      label.style.textAlign = 'right';
+    } else {
+      label.style.left = rightPct + '%';
+    }
+    row.appendChild(label);
+
+    track.appendChild(row);
   });
-  // Set the track height to fit all bands plus padding.
-  track.style.height = (STATES.length * 38 + 8) + 'px';
 
   // Century marks
   const axis = document.getElementById('timeline-axis');
-  const ticks = [-500, -250, 1, 250, 500, 750, 1000, 1250, 1500, 1750, 2000];
+  const ticks = [-500, 1, 500, 1000, 1500, 1700, 1800, 1900, 1950, 2000];
   ticks.forEach(y => {
     const tick = document.createElement('span');
     tick.className = 'timeline-tick';

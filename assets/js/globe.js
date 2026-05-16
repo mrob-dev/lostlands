@@ -15,19 +15,24 @@ if (!container) { /* page does not include the globe */ } else {
 
   // ===== Volume markers =====
   // Marker = a representative central point inside the historical state.
+  // `color` matches the colour used on the timeline; `years` is shown
+  // in the on-globe legend.
   const VOLUMES = [
-    { id: 'prussia',          name: 'Prussia',                       lat: 52.52, lon:  13.40, href: 'prussia/index.html'          },
-    { id: 'ottoman',          name: 'The Ottoman Empire',            lat: 41.01, lon:  28.97, href: 'ottoman/index.html'          },
-    { id: 'east-germany',     name: 'East Germany',                  lat: 51.34, lon:  12.37, href: 'east-germany/index.html'     },
-    { id: 'yugoslavia',       name: 'Yugoslavia',                    lat: 44.81, lon:  20.46, href: 'yugoslavia/index.html'       },
-    { id: 'persia',           name: 'Persia',                        lat: 32.66, lon:  51.68, href: 'persia/index.html'           },
-    { id: 'soviet-union',     name: 'The Soviet Union',              lat: 55.75, lon:  37.62, href: 'soviet-union/index.html'     },
-    { id: 'inca',             name: 'The Inca Empire',               lat: -13.52,lon: -71.97, href: 'inca/index.html'             },
-    { id: 'congo-free-state', name: 'The Congo Free State',          lat: -4.32, lon:  15.32, href: 'congo-free-state/index.html' },
-    { id: 'rome',             name: 'The Roman Empire',              lat: 41.90, lon:  12.50, href: 'rome/index.html'             },
-    { id: 'cordoba',          name: 'The Caliphate of Córdoba',      lat: 37.88, lon:  -4.78, href: 'cordoba/index.html'          },
-    { id: 'green-ukraine',    name: 'Green Ukraine',                 lat: 48.48, lon: 135.08, href: 'green-ukraine/index.html'    },
-    { id: 'jerusalem',        name: 'The Kingdom of Jerusalem',      lat: 31.78, lon:  35.21, href: 'jerusalem/index.html'        },
+    { id: 'prussia',           vol: 'I',    name: 'Prussia',                            lat: 54.71, lon:  20.51, color: '#1d1d1d', years: '1525 – 1947',     href: 'prussia/index.html'           },
+    { id: 'ottoman',           vol: 'II',   name: 'The Ottoman Empire',                 lat: 41.01, lon:  28.97, color: '#2a5e3a', years: '1299 – 1922',     href: 'ottoman/index.html'           },
+    { id: 'east-germany',      vol: 'III',  name: 'East Germany',                       lat: 52.52, lon:  13.40, color: '#c8a02e', years: '1949 – 1990',     href: 'east-germany/index.html'      },
+    { id: 'yugoslavia',        vol: 'IV',   name: 'Yugoslavia',                         lat: 44.81, lon:  20.46, color: '#2a5990', years: '1918 – 2003',     href: 'yugoslavia/index.html'        },
+    { id: 'persia',            vol: 'V',    name: 'Persia',                             lat: 32.66, lon:  51.68, color: '#c47a3a', years: '550 BC – 1979',   href: 'persia/index.html'            },
+    { id: 'soviet-union',      vol: 'VI',   name: 'The Soviet Union',                   lat: 55.75, lon:  37.62, color: '#b21b1b', years: '1922 – 1991',     href: 'soviet-union/index.html'      },
+    { id: 'inca',              vol: 'VII',  name: 'The Inca Empire',                    lat: -13.52,lon: -71.97, color: '#d4a437', years: '1438 – 1572',     href: 'inca/index.html'              },
+    { id: 'congo-free-state',  vol: 'VIII', name: 'The Congo Free State',               lat: -4.32, lon:  15.32, color: '#b54a32', years: '1885 – 1908',     href: 'congo-free-state/index.html'  },
+    { id: 'rome',              vol: 'IX',   name: 'The Roman Empire',                   lat: 41.90, lon:  12.50, color: '#8c2a25', years: '27 BC – 1453',    href: 'rome/index.html'              },
+    { id: 'cordoba',           vol: 'X',    name: 'The Caliphate of Córdoba',           lat: 37.88, lon:  -4.78, color: '#6f7d36', years: '929 – 1031',      href: 'cordoba/index.html'           },
+    { id: 'green-ukraine',     vol: 'XI',   name: 'Green Ukraine',                      lat: 48.48, lon: 135.08, color: '#4d8c52', years: '1917 – 1922',     href: 'green-ukraine/index.html'     },
+    { id: 'jerusalem',         vol: 'XII',  name: 'The Kingdom of Jerusalem',           lat: 31.78, lon:  35.21, color: '#c4a849', years: '1099 – 1291',     href: 'jerusalem/index.html'         },
+    { id: 'venice',            vol: 'XIII', name: 'The Republic of Venice',             lat: 45.44, lon:  12.32, color: '#a23b3b', years: '697 – 1797',      href: 'venice/index.html'            },
+    { id: 'poland-lithuania',  vol: 'XIV',  name: 'The Polish-Lithuanian Commonwealth', lat: 52.23, lon:  21.01, color: '#c52d2d', years: '1569 – 1795',     href: 'poland-lithuania/index.html'  },
+    { id: 'rhodesia',          vol: 'XV',   name: 'Rhodesia',                           lat: -17.83,lon:  31.05, color: '#2d6033', years: '1965 – 1979',     href: 'rhodesia/index.html'          },
   ];
 
   // ===== Approximate territorial boundary polygons =====
@@ -182,6 +187,40 @@ if (!container) { /* page does not include the globe */ } else {
       [31.20, 35.60], [30.65, 35.50], [29.95, 35.00], [29.50, 35.00], [29.70, 34.80],
       [30.20, 34.85], [31.00, 34.70], [31.80, 34.65], [32.55, 34.85], [33.10, 35.15],
       [33.80, 35.40], [34.60, 35.85], [35.15, 35.90], [35.85, 35.85],
+    ],
+
+    // Republic of Venice at peak (~1500): Veneto, Friuli, Istria and
+    // the Dalmatian coast as a single contiguous landward contour. The
+    // Stato da Mar holdings further south (Corfu, Crete, Cyprus) are
+    // omitted because they are not contiguous with the terraferma.
+    'venice': [
+      [46.50, 10.00], [46.60, 11.50], [46.60, 13.50], [46.20, 13.80], [45.80, 13.80],
+      [45.55, 13.70], [45.20, 14.10], [44.80, 14.60], [44.30, 15.00], [43.70, 15.50],
+      [43.20, 16.40], [42.70, 17.50], [42.40, 18.40], [42.10, 19.00], [42.50, 18.10],
+      [43.00, 16.70], [43.50, 15.80], [44.10, 14.90], [44.60, 14.30], [44.90, 13.90],
+      [45.20, 13.30], [45.40, 12.40], [45.50, 11.50], [45.70, 10.90], [46.00, 10.30],
+    ],
+
+    // Polish-Lithuanian Commonwealth at peak (~1619), the largest
+    // contiguous European state of its day. Approximate outer contour
+    // ignoring later voivodeship boundaries.
+    'poland-lithuania': [
+      [55.50, 21.00], [56.30, 22.50], [56.80, 24.00], [56.40, 27.00], [55.50, 30.00],
+      [54.70, 32.30], [53.50, 34.00], [52.00, 35.00], [50.50, 35.50], [49.00, 35.00],
+      [48.00, 33.00], [47.20, 31.00], [47.00, 29.00], [47.60, 26.50], [48.00, 25.50],
+      [48.50, 23.00], [49.20, 22.30], [49.50, 19.50], [49.80, 18.30], [50.30, 16.50],
+      [51.00, 15.50], [51.80, 15.00], [52.50, 14.80], [53.40, 14.50], [54.00, 15.00],
+      [54.40, 16.50], [54.50, 18.30], [54.70, 19.50],
+    ],
+
+    // Rhodesia / Southern Rhodesia, 1965 UDI boundaries — equivalent
+    // to modern Zimbabwe.
+    'rhodesia': [
+      [-15.60, 26.20], [-15.60, 28.00], [-15.50, 29.50], [-15.70, 30.50], [-15.85, 31.80],
+      [-16.20, 32.70], [-16.80, 32.90], [-17.50, 33.00], [-18.50, 32.90], [-19.50, 33.00],
+      [-20.50, 32.50], [-21.50, 31.80], [-22.20, 31.20], [-22.30, 30.30], [-22.30, 29.40],
+      [-22.00, 28.00], [-21.50, 27.40], [-20.50, 26.40], [-19.50, 26.00], [-18.50, 25.40],
+      [-17.80, 25.80], [-17.00, 26.10], [-16.30, 26.10],
     ],
   };
 
@@ -351,12 +390,15 @@ if (!container) { /* page does not include the globe */ } else {
   }
 
   const shapeObjects = {};
+  const volsById = {};
+  VOLUMES.forEach(v => { volsById[v.id] = v; });
   for (const [id, latLonPoints] of Object.entries(SHAPES)) {
     const group = new THREE.Group();
+    const stateColor = (volsById[id] && volsById[id].color) || '#f4d066';
 
     const fillGeo = buildFillGeometry(latLonPoints, R * 1.003);
     const fillMat = new THREE.MeshBasicMaterial({
-      color: 0xf4d066,
+      color: new THREE.Color(stateColor),
       transparent: true,
       opacity: 0,
       side: THREE.DoubleSide,
@@ -367,7 +409,7 @@ if (!container) { /* page does not include the globe */ } else {
 
     const lineGeo = buildBoundaryGeometry(latLonPoints, R * 1.006);
     const lineMat = new THREE.LineBasicMaterial({
-      color: 0xfff2c2,
+      color: new THREE.Color(stateColor).lerp(new THREE.Color('#ffffff'), 0.35),
       transparent: true,
       opacity: 0,
       linewidth: 2,
@@ -383,13 +425,13 @@ if (!container) { /* page does not include the globe */ } else {
   const markersGroup = new THREE.Group();
   globeGroup.add(markersGroup);
 
-  const PIN_R = 0.04;
-  const RING_R = 0.07;
+  const PIN_R = 0.038;
+  const RING_R = 0.068;
 
-  const matFill    = new THREE.MeshBasicMaterial({ color: 0xfff0a8 });
-  const matOutline = new THREE.LineBasicMaterial({ color: 0x4a3000 });
+  const matOutline = new THREE.LineBasicMaterial({ color: 0x1a1a1a });
 
   const markers = [];
+  const markersById = {};
 
   VOLUMES.forEach(v => {
     const center = latLonToVec3(v.lat, v.lon, R * 1.015);
@@ -397,7 +439,8 @@ if (!container) { /* page does not include the globe */ } else {
     pinGroup.position.copy(center);
     pinGroup.lookAt(center.clone().multiplyScalar(2));
 
-    const disc = new THREE.Mesh(new THREE.CircleGeometry(PIN_R, 24), matFill);
+    const fillMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(v.color) });
+    const disc = new THREE.Mesh(new THREE.CircleGeometry(PIN_R, 24), fillMat);
     pinGroup.add(disc);
 
     const ringPts = [];
@@ -412,9 +455,10 @@ if (!container) { /* page does not include the globe */ } else {
       const t = (i / 48) * Math.PI * 2;
       haloPts.push(new THREE.Vector3(Math.cos(t) * RING_R, Math.sin(t) * RING_R, 0));
     }
+    const haloMat = new THREE.LineBasicMaterial({ color: new THREE.Color(v.color), transparent: true, opacity: 0.55 });
     const halo = new THREE.LineLoop(
       new THREE.BufferGeometry().setFromPoints(haloPts),
-      new THREE.LineBasicMaterial({ color: 0xfff2c2, transparent: true, opacity: 0.55 })
+      haloMat
     );
     pinGroup.add(halo);
 
@@ -426,7 +470,9 @@ if (!container) { /* page does not include the globe */ } else {
     pinGroup.add(hit);
 
     markersGroup.add(pinGroup);
-    markers.push({ group: pinGroup, halo, hit, data: v });
+    const entry = { group: pinGroup, halo, haloMat, hit, data: v };
+    markers.push(entry);
+    markersById[v.id] = entry;
   });
 
   // ===== Controls =====
@@ -538,9 +584,94 @@ if (!container) { /* page does not include the globe */ } else {
     }
   });
 
+  // ===== Snap-to-state (legend → focus) =====
+  let tweening = false;
+  let tweenT0 = 0, tweenDur = 0;
+  let tweenStart = { x: 0, y: 0 };
+  let tweenEnd = { x: 0, y: 0 };
+  let focusedId = null;
+
+  function focusOn(id) {
+    const v = volsById[id];
+    if (!v) return;
+
+    // Target globeGroup rotation so the given lat/lon faces the camera
+    // (which sits roughly along +Z). See latLonToVec3: an X-axis tilt of
+    // lat radians plus a Y-axis spin of -π/2 - lon radians brings the
+    // unit vector onto the +Z axis.
+    const targetX = THREE.MathUtils.degToRad(v.lat);
+    let targetY = -Math.PI / 2 - THREE.MathUtils.degToRad(v.lon);
+
+    // Normalise current Y so the shortest rotation is taken.
+    let curY = globeGroup.rotation.y;
+    while (curY - targetY >  Math.PI) curY -= 2 * Math.PI;
+    while (curY - targetY < -Math.PI) curY += 2 * Math.PI;
+    globeGroup.rotation.y = curY;
+
+    tweenStart = { x: globeGroup.rotation.x, y: globeGroup.rotation.y };
+    tweenEnd   = { x: targetX,                y: targetY };
+    tweenT0 = performance.now();
+    tweenDur = 1100;
+    tweening = true;
+
+    // Suspend auto-rotate while the user is exploring.
+    controls.autoRotate = false;
+    if (interactTimer) clearTimeout(interactTimer);
+    interactTimer = setTimeout(() => { controls.autoRotate = true; }, 8000);
+
+    // Highlight this state's polygon; clear any previous.
+    for (const [otherId, obj] of Object.entries(shapeObjects)) {
+      if (otherId !== id) { obj.fillMat.opacity = 0; obj.lineMat.opacity = 0; }
+    }
+    const cur = shapeObjects[id];
+    if (cur) { cur.fillMat.opacity = FILL_OPACITY; cur.lineMat.opacity = LINE_OPACITY; }
+
+    // Enlarge the marker halo for the focused state.
+    Object.values(markersById).forEach(m => { m.halo.scale.set(1, 1, 1); });
+    const m = markersById[id];
+    if (m) m.halo.scale.set(1.8, 1.8, 1);
+
+    focusedId = id;
+
+    // Update legend visual active state.
+    document.querySelectorAll('.globe-legend-item').forEach(el => {
+      el.classList.toggle('is-active', el.dataset.id === id);
+    });
+  }
+
+  // ===== Legend wiring =====
+  const legendList = document.getElementById('globe-legend-list');
+  if (legendList) {
+    legendList.innerHTML = '';
+    VOLUMES.forEach(v => {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'globe-legend-item';
+      btn.dataset.id = v.id;
+      btn.style.setProperty('--state-color', v.color);
+      btn.innerHTML = `
+        <span class="globe-legend-vol">Vol. ${v.vol}</span>
+        <span class="globe-legend-name">${v.name}</span>
+        <span class="globe-legend-years">${v.years}</span>
+      `;
+      btn.addEventListener('click', () => focusOn(v.id));
+      li.appendChild(btn);
+      legendList.appendChild(li);
+    });
+  }
+
   // ===== Animation loop =====
   function animate() {
     requestAnimationFrame(animate);
+    if (tweening) {
+      const t = Math.min(1, (performance.now() - tweenT0) / tweenDur);
+      // easeInOutQuad
+      const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      globeGroup.rotation.x = tweenStart.x + (tweenEnd.x - tweenStart.x) * e;
+      globeGroup.rotation.y = tweenStart.y + (tweenEnd.y - tweenStart.y) * e;
+      if (t >= 1) tweening = false;
+    }
     controls.update();
     renderer.render(scene, camera);
   }
