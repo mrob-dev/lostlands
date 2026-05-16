@@ -591,6 +591,20 @@ if (!container) { /* page does not include the globe */ } else {
   let tweenEnd = { x: 0, y: 0 };
   let focusedId = null;
 
+  // Camera-distance tween (zoom in on focus, zoom out on auto-rotate resume).
+  const DEFAULT_CAM_DIST = camera.position.length();   // initial ~4.65
+  const FOCUS_CAM_DIST   = 3.05;                       // closer for "zoom in"
+  let zooming = false;
+  let zoomT0 = 0, zoomDur = 0, zoomStart = DEFAULT_CAM_DIST, zoomEnd = DEFAULT_CAM_DIST;
+
+  function startZoom(targetDist, dur) {
+    zoomStart = camera.position.length();
+    zoomEnd   = targetDist;
+    zoomT0    = performance.now();
+    zoomDur   = dur;
+    zooming   = true;
+  }
+
   function focusOn(id) {
     const v = volsById[id];
     if (!v) return;
@@ -614,10 +628,16 @@ if (!container) { /* page does not include the globe */ } else {
     tweenDur = 1100;
     tweening = true;
 
+    // Dolly the camera closer for a "zoom in".
+    startZoom(FOCUS_CAM_DIST, 1100);
+
     // Suspend auto-rotate while the user is exploring.
     controls.autoRotate = false;
     if (interactTimer) clearTimeout(interactTimer);
-    interactTimer = setTimeout(() => { controls.autoRotate = true; }, 8000);
+    interactTimer = setTimeout(() => {
+      controls.autoRotate = true;
+      startZoom(DEFAULT_CAM_DIST, 1500);
+    }, 8000);
 
     // Highlight this state's polygon; clear any previous.
     for (const [otherId, obj] of Object.entries(shapeObjects)) {
@@ -671,6 +691,15 @@ if (!container) { /* page does not include the globe */ } else {
       globeGroup.rotation.x = tweenStart.x + (tweenEnd.x - tweenStart.x) * e;
       globeGroup.rotation.y = tweenStart.y + (tweenEnd.y - tweenStart.y) * e;
       if (t >= 1) tweening = false;
+    }
+    if (zooming) {
+      const t = Math.min(1, (performance.now() - zoomT0) / zoomDur);
+      const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      const dist = zoomStart + (zoomEnd - zoomStart) * e;
+      // Maintain direction from target; preserves any user pan/zoom angles.
+      const dir = camera.position.clone().sub(controls.target).normalize();
+      camera.position.copy(controls.target).add(dir.multiplyScalar(dist));
+      if (t >= 1) zooming = false;
     }
     controls.update();
     renderer.render(scene, camera);

@@ -551,7 +551,7 @@ hr.ornament {
 }
 .globe-canvas {
   width: 100%;
-  height: 640px;
+  height: 760px;
   display: block;
   touch-action: none;
   cursor: grab;
@@ -586,7 +586,7 @@ hr.ornament {
   top: 0; left: 0;
   width: 280px;
   max-height: 100%;
-  padding: 18px 0 16px;
+  padding: 14px 0 14px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -618,7 +618,11 @@ hr.ornament {
   padding: 0; margin: 0;
   overflow-y: auto;
   flex: 1 1 auto;
+  /* Hide scrollbar visually while keeping scroll functional */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.globe-key-list::-webkit-scrollbar { width: 0; height: 0; display: none; }
 .globe-key-list li {
   margin: 0;
   border-bottom: 1px solid var(--rule-soft);
@@ -628,9 +632,9 @@ hr.ornament {
   width: 100%;
   display: grid;
   grid-template-columns: 8px 1fr auto;
-  gap: 10px;
+  gap: 8px;
   align-items: baseline;
-  padding: 8px 16px 8px 8px;
+  padding: 5px 14px 5px 8px;
   background: transparent;
   border: none;
   border-left: 6px solid var(--state-color, var(--ink));
@@ -660,10 +664,10 @@ hr.ornament {
 }
 .globe-legend-name {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.015em;
   text-transform: uppercase;
-  line-height: 1.05;
+  line-height: 1.0;
   color: inherit;
 }
 .globe-legend-years {
@@ -762,7 +766,7 @@ hr.ornament {
 }
 .chap-hero.has-image {
   background: var(--ink);
-  color: var(--canvas);
+  color: #ffffff;
 }
 .chap-hero.has-image::before {
   content: "";
@@ -770,14 +774,25 @@ hr.ornament {
   background-image: var(--hero-bg);
   background-size: cover;
   background-position: center;
-  filter: grayscale(1) contrast(1.1) brightness(0.55);
+  filter: grayscale(0.6) contrast(1.05) brightness(0.58);
   z-index: 0;
 }
-.chap-hero.has-image > * { position: relative; z-index: 1; color: var(--canvas); }
+.chap-hero.has-image::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+.chap-hero.has-image > * { position: relative; z-index: 1; }
 .chap-hero.has-image .chap-num,
+.chap-hero.has-image .chap-title,
+.chap-hero.has-image .chap-title em,
 .chap-hero.has-image .chap-sub,
-.chap-hero.has-image .chap-meta { color: var(--canvas); border-color: var(--canvas); }
-.chap-hero.has-image .chap-num { border-bottom-color: var(--canvas); }
+.chap-hero.has-image .chap-meta {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.7);
+}
 
 .chap-num {
   font-family: var(--font-condensed);
@@ -1387,6 +1402,14 @@ hr.ornament {
   letter-spacing: 0.14em;
   color: var(--ink-soft);
   text-transform: uppercase;
+}
+/* When the bar is wide enough to host the label inside, recolour the
+   text for contrast against the coloured fill. */
+.timeline-row-label.is-inside .vol,
+.timeline-row-label.is-inside .name,
+.timeline-row-label.is-inside .dates {
+  color: #ffffff;
+  opacity: 0.95;
 }
 .timeline-axis {
   position: relative;

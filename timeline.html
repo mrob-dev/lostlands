@@ -148,9 +148,12 @@
   }
 
   const track = document.getElementById('timeline-track');
-  // Threshold (in % of width) beyond which a right-side label would
-  // run off the page; for those rows we flip the label to the left.
-  const LABEL_FLIP_PCT = 62;
+  // Estimated label width as a share of the track. Used to decide
+  // whether a right-side or left-side outside-the-bar label would fit.
+  const LABEL_PCT = 32;
+  // Bars wider than this take the label INSIDE the bar (with white text
+  // for contrast against the coloured fill).
+  const INSIDE_MIN_WIDTH_PCT = 22;
   STATES.forEach((s) => {
     const row = document.createElement('a');
     row.className = 'timeline-row';
@@ -170,11 +173,18 @@
     const label = document.createElement('span');
     label.className = 'timeline-row-label';
     label.innerHTML = `<span class="vol">Vol. ${s.vol}</span><span class="name">${s.name}</span><span class="dates">${formatYear(s.start)} – ${formatYear(s.end)}</span>`;
-    if (rightPct > LABEL_FLIP_PCT) {
-      // Anchor to the left edge of the bar, growing leftward.
+
+    if (widthPct >= INSIDE_MIN_WIDTH_PCT) {
+      // Bar is wide enough — put the label INSIDE at its left edge,
+      // with light text for contrast against the coloured fill.
+      label.style.left = leftPct + '%';
+      label.classList.add('is-inside');
+    } else if (rightPct + LABEL_PCT > 100) {
+      // No room to the right — place the label to the LEFT of the bar.
       label.style.right = (100 - leftPct) + '%';
       label.style.textAlign = 'right';
     } else {
+      // Default: label sits just to the right of the bar.
       label.style.left = rightPct + '%';
     }
     row.appendChild(label);
