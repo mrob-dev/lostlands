@@ -366,11 +366,50 @@ if (!container) { /* page does not include the globe */ } else {
     return new THREE.BufferGeometry().setFromPoints(pts);
   }
 
+  // Subdivide each triangle and project the new midpoints onto the
+  // sphere of the given radius, so the resulting mesh conforms to the
+  // sphere's curvature rather than chord-cutting beneath it. Repeat
+  // `depth` times; each iteration quadruples the triangle count.
+  function subdivideOntoSphere(positions, indices, radius, depth) {
+    let pos = positions.slice();
+    let idx = indices.slice();
+    for (let d = 0; d < depth; d++) {
+      const cache = new Map();
+      const newIdx = [];
+      function midpoint(a, b) {
+        const key = a < b ? `${a}_${b}` : `${b}_${a}`;
+        if (cache.has(key)) return cache.get(key);
+        const ax = pos[a * 3], ay = pos[a * 3 + 1], az = pos[a * 3 + 2];
+        const bx = pos[b * 3], by = pos[b * 3 + 1], bz = pos[b * 3 + 2];
+        let mx = (ax + bx) * 0.5, my = (ay + by) * 0.5, mz = (az + bz) * 0.5;
+        const len = Math.sqrt(mx * mx + my * my + mz * mz);
+        const s = radius / len;
+        mx *= s; my *= s; mz *= s;
+        const newIndex = pos.length / 3;
+        pos.push(mx, my, mz);
+        cache.set(key, newIndex);
+        return newIndex;
+      }
+      for (let i = 0; i < idx.length; i += 3) {
+        const a = idx[i], b = idx[i + 1], c = idx[i + 2];
+        const ab = midpoint(a, b);
+        const bc = midpoint(b, c);
+        const ca = midpoint(c, a);
+        newIdx.push(a, ab, ca, b, bc, ab, c, ca, bc, ab, bc, ca);
+      }
+      idx = newIdx;
+    }
+    return { positions: pos, indices: idx };
+  }
+
   // Properly triangulated fill using THREE.ShapeUtils.triangulateShape,
   // applied in the lat/lon plane and projected to the sphere. This handles
   // concave coastlines (Adriatic, Mediterranean, etc.) correctly.
+  // We then subdivide each triangle and re-project the new vertices to
+  // the sphere, so large polygons hug the curvature rather than cutting
+  // chords through it.
   function buildFillGeometry(latLonPoints, radius) {
-    let pts = densifyContour(latLonPoints, 8);
+    let pts = densifyContour(latLonPoints, 12);
     // ShapeUtils.triangulateShape requires counter-clockwise winding.
     if (signedArea(pts) < 0) pts = pts.reverse();
     const contour = pts.map(p => new THREE.Vector2(p[1], p[0])); // (x=lon, y=lat)
@@ -382,9 +421,13 @@ if (!container) { /* page does not include the globe */ } else {
     }
     const indices = [];
     for (const f of faces) indices.push(f[0], f[1], f[2]);
+    // Subdivide twice: each pass quadruples triangles and projects new
+    // vertices onto the sphere, eliminating the visible gaps that
+    // otherwise appear when a flat triangle dips below the curvature.
+    const sub = subdivideOntoSphere(positions, indices, radius, 2);
     const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geo.setIndex(indices);
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(sub.positions, 3));
+    geo.setIndex(sub.indices);
     geo.computeVertexNormals();
     return geo;
   }
@@ -585,10 +628,15 @@ if (!container) { /* page does not include the globe */ } else {
   });
 
   // ===== Snap-to-state (legend → focus) =====
+  // Quaternion-based rotation so the focus works correctly regardless
+  // of where autoRotate has drifted the camera. We compute the
+  // rotation that takes the state's CURRENT world position onto the
+  // camera-facing unit vector, then slerp the globeGroup quaternion
+  // from its current orientation toward that target.
   let tweening = false;
   let tweenT0 = 0, tweenDur = 0;
-  let tweenStart = { x: 0, y: 0 };
-  let tweenEnd = { x: 0, y: 0 };
+  const tweenStartQuat = new THREE.Quaternion();
+  const tweenEndQuat   = new THREE.Quaternion();
   let focusedId = null;
 
   // Camera-distance tween (zoom in on focus, zoom out on auto-rotate resume).
@@ -605,25 +653,35 @@ if (!container) { /* page does not include the globe */ } else {
     zooming   = true;
   }
 
+  // Local (rotation-free) unit vector for a given state, computed once.
+  function localUnitVec(lat, lon) {
+    const latR = THREE.MathUtils.degToRad(lat);
+    const lonR = THREE.MathUtils.degToRad(lon);
+    return new THREE.Vector3(
+       Math.cos(latR) * Math.cos(lonR),
+       Math.sin(latR),
+      -Math.cos(latR) * Math.sin(lonR),
+    );
+  }
+
   function focusOn(id) {
     const v = volsById[id];
     if (!v) return;
 
-    // Target globeGroup rotation so the given lat/lon faces the camera
-    // (which sits roughly along +Z). See latLonToVec3: an X-axis tilt of
-    // lat radians plus a Y-axis spin of -π/2 - lon radians brings the
-    // unit vector onto the +Z axis.
-    const targetX = THREE.MathUtils.degToRad(v.lat);
-    let targetY = -Math.PI / 2 - THREE.MathUtils.degToRad(v.lon);
+    // Where the camera is looking FROM, relative to the globe centre.
+    // This is the direction we want the state's surface point to face.
+    const camDir = camera.position.clone().sub(controls.target).normalize();
 
-    // Normalise current Y so the shortest rotation is taken.
-    let curY = globeGroup.rotation.y;
-    while (curY - targetY >  Math.PI) curY -= 2 * Math.PI;
-    while (curY - targetY < -Math.PI) curY += 2 * Math.PI;
-    globeGroup.rotation.y = curY;
+    // Current world direction of this state, including the existing
+    // globeGroup orientation.
+    const local = localUnitVec(v.lat, v.lon);
+    const currentWorldDir = local.clone().applyQuaternion(globeGroup.quaternion);
 
-    tweenStart = { x: globeGroup.rotation.x, y: globeGroup.rotation.y };
-    tweenEnd   = { x: targetX,                y: targetY };
+    // The extra rotation needed: send currentWorldDir → camDir.
+    const delta = new THREE.Quaternion().setFromUnitVectors(currentWorldDir, camDir);
+    tweenStartQuat.copy(globeGroup.quaternion);
+    tweenEndQuat.copy(delta).multiply(globeGroup.quaternion);
+
     tweenT0 = performance.now();
     tweenDur = 1100;
     tweening = true;
@@ -637,6 +695,14 @@ if (!container) { /* page does not include the globe */ } else {
     interactTimer = setTimeout(() => {
       controls.autoRotate = true;
       startZoom(DEFAULT_CAM_DIST, 1500);
+      // Fade out the focus highlights when auto-rotate resumes.
+      if (focusedId) {
+        const o = shapeObjects[focusedId];
+        if (o) { o.fillMat.opacity = 0; o.lineMat.opacity = 0; }
+        if (markersById[focusedId]) markersById[focusedId].halo.scale.set(1, 1, 1);
+        document.querySelectorAll('.globe-legend-item').forEach(el => el.classList.remove('is-active'));
+        focusedId = null;
+      }
     }, 8000);
 
     // Highlight this state's polygon; clear any previous.
@@ -646,10 +712,9 @@ if (!container) { /* page does not include the globe */ } else {
     const cur = shapeObjects[id];
     if (cur) { cur.fillMat.opacity = FILL_OPACITY; cur.lineMat.opacity = LINE_OPACITY; }
 
-    // Enlarge the marker halo for the focused state.
+    // Reset all marker haloes; the pulse animation in the render loop
+    // will modulate the focused marker's halo continuously.
     Object.values(markersById).forEach(m => { m.halo.scale.set(1, 1, 1); });
-    const m = markersById[id];
-    if (m) m.halo.scale.set(1.8, 1.8, 1);
 
     focusedId = id;
 
@@ -688,18 +753,23 @@ if (!container) { /* page does not include the globe */ } else {
       const t = Math.min(1, (performance.now() - tweenT0) / tweenDur);
       // easeInOutQuad
       const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      globeGroup.rotation.x = tweenStart.x + (tweenEnd.x - tweenStart.x) * e;
-      globeGroup.rotation.y = tweenStart.y + (tweenEnd.y - tweenStart.y) * e;
+      globeGroup.quaternion.copy(tweenStartQuat).slerp(tweenEndQuat, e);
       if (t >= 1) tweening = false;
     }
     if (zooming) {
       const t = Math.min(1, (performance.now() - zoomT0) / zoomDur);
       const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
       const dist = zoomStart + (zoomEnd - zoomStart) * e;
-      // Maintain direction from target; preserves any user pan/zoom angles.
       const dir = camera.position.clone().sub(controls.target).normalize();
       camera.position.copy(controls.target).add(dir.multiplyScalar(dist));
       if (t >= 1) zooming = false;
+    }
+    // Pulse the focused marker's halo: scale 1.4 ↔ 2.2 with a ~1.4 s
+    // period so the user can quickly find which marker is selected.
+    if (focusedId && markersById[focusedId]) {
+      const t = performance.now() * 0.001;
+      const s = 1.8 + 0.45 * Math.sin(t * 4.5);
+      markersById[focusedId].halo.scale.set(s, s, 1);
     }
     controls.update();
     renderer.render(scene, camera);
