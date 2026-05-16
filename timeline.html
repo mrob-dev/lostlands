@@ -26,9 +26,9 @@
 
   <header class="hero" style="padding-top: 100px;">
     <div>
-      <p class="hero-eyebrow">All twenty-two volumes &nbsp;·&nbsp; A single axis</p>
-      <h1 class="hero-title">The Timeline.<br/><em>2,557 years, twenty-two bands.</em></h1>
-      <p class="hero-sub">Every lost state in the library, laid out on a single horizontal time axis. From the proclamation of Cyrus the Great in approximately 550 BC to the dissolution of Yugoslavia in 2003. The scale is piecewise: ancient and early-medieval centuries are compressed, the early-modern and modern centuries are stretched, so a five-year state like Green Ukraine sits beside its much longer neighbours at a width you can still read.</p>
+      <p class="hero-eyebrow">All twenty-four volumes &nbsp;·&nbsp; A single axis</p>
+      <h1 class="hero-title">The Timeline.<br/><em>2,817 years, twenty-four bands.</em></h1>
+      <p class="hero-sub">Every lost state in the library, laid out on a single horizontal time axis. From the traditional foundation of Carthage in 814 BC to the dissolution of Yugoslavia in 2003. The scale is piecewise: ancient and early-medieval centuries are compressed, the early-modern and modern centuries are stretched, so a five-year state like Green Ukraine sits beside its much longer neighbours at a width you can still read.</p>
     </div>
   </header>
 
@@ -105,9 +105,10 @@
   // share of the horizontal axis so the modern era — where most of the
   // library sits — receives generously more room than ancient eras.
   const BREAKS = [
-    { year: -550, pct:   0 },
-    { year:  500, pct:  18 },
-    { year: 1000, pct:  32 },
+    { year: -850, pct:   0 },
+    { year: -200, pct:   8 },
+    { year:  500, pct:  20 },
+    { year: 1000, pct:  33 },
     { year: 1500, pct:  48 },
     { year: 1800, pct:  70 },
     { year: 2050, pct: 100 },
@@ -125,10 +126,12 @@
   }
 
   const STATES = [
+    { id: 'carthage',          name: 'The Carthaginian Empire',             start: -814, end: -146, vol: 'XXIV',  color: '#7a2d18', href: 'carthage/index.html'           },
     { id: 'persia',            name: 'Persia',                              start: -550, end: 1979, vol: 'V',     color: '#c47a3a', href: 'persia/index.html'             },
     { id: 'byzantine',         name: 'The Byzantine Empire',                start:  330, end: 1453, vol: 'XXII',  color: '#8a3a72', href: 'byzantine/index.html'          },
     { id: 'rome',              name: 'The Roman Empire',                    start: -27,  end: 1453, vol: 'IX',    color: '#8c2a25', href: 'rome/index.html'               },
     { id: 'venice',            name: 'The Republic of Venice',              start: 697,  end: 1797, vol: 'XIII',  color: '#a23b3b', href: 'venice/index.html'             },
+    { id: 'abbasid',           name: 'The Abbasid Caliphate',               start: 750,  end: 1258, vol: 'XXIII', color: '#1f1f1f', href: 'abbasid/index.html'            },
     { id: 'holy-roman-empire', name: 'The Holy Roman Empire',               start: 962,  end: 1806, vol: 'XVII',  color: '#8d4d2c', href: 'holy-roman-empire/index.html'  },
     { id: 'cordoba',           name: 'The Caliphate of Córdoba',            start: 929,  end: 1031, vol: 'X',     color: '#6f7d36', href: 'cordoba/index.html'            },
     { id: 'jerusalem',         name: 'The Kingdom of Jerusalem',            start: 1099, end: 1291, vol: 'XII',   color: '#c4a849', href: 'jerusalem/index.html'          },

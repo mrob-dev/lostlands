@@ -40,6 +40,8 @@ if (!container) { /* page does not include the globe */ } else {
     { id: 'south-vietnam',     vol: 'XX',    name: 'South Vietnam',                      lat: 10.78, lon: 106.70, color: '#f0c040', years: '1955 – 1975',     href: 'south-vietnam/index.html'     },
     { id: 'republic-of-texas', vol: 'XXI',   name: 'The Republic of Texas',              lat: 30.27, lon: -97.74, color: '#2a4d6e', years: '1836 – 1846',     href: 'republic-of-texas/index.html' },
     { id: 'byzantine',         vol: 'XXII',  name: 'The Byzantine Empire',               lat: 41.01, lon:  28.97, color: '#8a3a72', years: '330 – 1453',      href: 'byzantine/index.html'         },
+    { id: 'abbasid',           vol: 'XXIII', name: 'The Abbasid Caliphate',              lat: 33.31, lon:  44.36, color: '#1f1f1f', years: '750 – 1258',      href: 'abbasid/index.html'           },
+    { id: 'carthage',          vol: 'XXIV',  name: 'The Carthaginian Empire',            lat: 36.85, lon:  10.32, color: '#7a2d18', years: '814 – 146 BC',    href: 'carthage/index.html'          },
   ];
 
   // ===== Approximate territorial boundary polygons =====
@@ -296,6 +298,33 @@ if (!container) { /* page does not include the globe */ } else {
       [32.50, 27.00], [33.00, 22.50], [33.50, 18.00], [34.50, 12.50], [35.50, 11.50],
       [36.50, 10.50], [37.00,  9.50], [38.50,  9.00], [40.00,  9.00], [42.00,  9.50],
       [43.00, 11.50],
+    ],
+
+    // Abbasid Caliphate at peak (~800 AD under Harun al-Rashid) —
+    // from the Atlas to the Indus, Caspian to southern Arabia.
+    'abbasid': [
+      [36.50, -5.00], [36.50,  0.00], [37.00,  9.50], [33.00, 12.50], [31.00, 19.00],
+      [31.50, 25.00], [31.00, 31.00], [27.00, 33.50], [22.00, 38.50], [16.00, 42.50],
+      [13.00, 46.00], [14.00, 50.00], [17.00, 53.00], [22.00, 58.00], [25.00, 60.00],
+      [27.50, 63.00], [30.00, 67.00], [33.00, 71.00], [36.00, 73.00], [38.00, 71.00],
+      [40.00, 67.00], [41.50, 63.00], [42.00, 58.00], [40.00, 52.00], [40.50, 48.00],
+      [41.50, 44.00], [40.50, 42.00], [38.50, 41.00], [37.50, 38.00], [37.00, 35.00],
+      [36.00, 32.50], [36.50, 28.00], [35.00, 24.00], [33.00, 19.00], [33.00, 12.00],
+      [34.50,  8.00], [35.00,  3.00], [35.50, -2.00],
+    ],
+
+    // Carthaginian Empire at peak (~264 BC, before First Punic War) —
+    // North African coast from Cyrenaica to the Atlantic, plus
+    // contiguous inland territory. (The non-contiguous Sicilian,
+    // Sardinian, Corsican and Iberian holdings are omitted.)
+    'carthage': [
+      [37.40,  9.50], [37.20, 10.30], [37.00, 11.20], [36.70, 11.10], [36.20, 10.60],
+      [35.50, 11.10], [34.50, 11.20], [33.50, 10.80], [32.80, 11.20], [32.30, 13.00],
+      [31.80, 14.50], [31.40, 16.50], [31.30, 19.00], [30.80, 20.50], [29.50, 20.50],
+      [29.00, 18.00], [29.50, 14.00], [30.50, 11.50], [31.50,  9.00], [32.00,  6.00],
+      [32.50,  3.00], [33.00,  0.00], [33.50, -3.00], [34.00, -5.50], [34.80, -5.30],
+      [35.50, -5.00], [36.20, -4.50], [35.20, -1.50], [34.80,  1.00], [34.80,  4.50],
+      [35.50,  7.00], [36.40,  8.50],
     ],
   };
 
