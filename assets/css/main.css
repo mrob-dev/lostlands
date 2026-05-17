@@ -557,6 +557,30 @@ hr.ornament {
   cursor: grab;
 }
 .globe-canvas:active { cursor: grabbing; }
+
+/* Tablet: shrink the canvas, narrow the legend so the globe doesn't sit
+   under the legend overlay. */
+@media (max-width: 960px) {
+  .globe-canvas { height: 640px; }
+  .globe-key { width: 220px; }
+}
+
+/* Phone: drop the legend out of the absolute overlay entirely so the
+   globe centres in the viewport instead of getting pushed off-screen by
+   a wide sidebar. The legend stacks below as a horizontal scroller. */
+@media (max-width: 720px) {
+  .globe-wrap { display: flex; flex-direction: column; }
+  .globe-canvas { height: 460px; order: 1; }
+  .globe-key {
+    position: static;
+    width: 100%;
+    max-height: none;
+    border-right: none;
+    border-top: 1px solid var(--ink);
+    order: 2;
+  }
+  .globe-key-list { max-height: 240px; }
+}
 .globe-tooltip {
   position: absolute;
   pointer-events: none;
@@ -754,6 +778,96 @@ hr.ornament {
 }
 
 /* =====  Chapter page  ===== */
+
+/* Chapter sidebar — a fixed-position table-of-contents on desktop,
+   collapsible <details> at the top of the article on mobile. The same
+   markup serves both via media queries. */
+.chap-sidebar {
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  background: var(--canvas);
+  border: 1px solid var(--ink);
+  margin: 0 auto;
+  max-width: 760px;
+  padding: 0;
+}
+.chap-sidebar-details { padding: 14px 18px; }
+.chap-sidebar summary {
+  cursor: pointer;
+  list-style: none;
+  text-transform: uppercase;
+  font-family: var(--font-condensed);
+  letter-spacing: 0.15em;
+  font-size: 11px;
+  display: flex; gap: 10px; align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.chap-sidebar summary::-webkit-details-marker { display: none; }
+.chap-sidebar summary::after {
+  content: "▾";
+  margin-left: auto;
+  font-size: 12px;
+}
+.chap-sidebar-details[open] summary::after { content: "▴"; }
+.chap-sidebar-vol { font-weight: 600; color: var(--ink); }
+.chap-sidebar-volname { color: var(--ink-soft); font-weight: 400; }
+
+.chap-sidebar-list {
+  list-style: none; padding: 0; margin: 12px 0 0;
+}
+.chap-sidebar-list li { margin: 0; }
+.chap-sidebar-list a {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  padding: 6px 6px;
+  border: none;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 2px;
+  align-items: baseline;
+}
+.chap-sidebar-list a:hover { background: var(--canvas-alt); }
+.chap-sidebar-list a.is-current { background: var(--ink); color: var(--canvas); }
+.chap-sidebar-list a.is-current .chap-sidebar-num,
+.chap-sidebar-list a.is-current .chap-sidebar-title { color: var(--canvas); }
+.chap-sidebar-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  text-align: right;
+}
+.chap-sidebar-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+/* Desktop: lift the sidebar out as a fixed left-rail nav so it doesn't
+   push the chapter hero down. */
+@media (min-width: 1200px) {
+  .chap-sidebar {
+    position: fixed;
+    left: 18px;
+    top: 96px;
+    width: 240px;
+    max-width: none;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+    z-index: 5;
+    margin: 0;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+  }
+  .chap-sidebar summary { pointer-events: none; }
+  .chap-sidebar summary::after { display: none; }
+}
+
 .chap-hero {
   min-height: 80vh;
   padding: 120px 25px 50px;

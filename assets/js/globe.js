@@ -635,6 +635,12 @@ if (!container) { /* page does not include the globe */ } else {
   controls.zoomSpeed = 0.6;
   controls.autoRotate = true;
   controls.autoRotateSpeed = 0.35;
+  // Keep north up: user can't rotate past the poles. The polar angle is
+  // measured from world +Y; 0 looks straight down at the north pole, π
+  // looks at the south. Clamping to roughly [25°, 155°] preserves natural
+  // viewing while preventing the upside-down state.
+  controls.minPolarAngle = THREE.MathUtils.degToRad(25);
+  controls.maxPolarAngle = THREE.MathUtils.degToRad(155);
 
   globeGroup.rotation.y = -Math.PI / 6;
 
@@ -774,19 +780,28 @@ if (!container) { /* page does not include the globe */ } else {
     const v = volsById[id];
     if (!v) return;
 
-    // Where the camera is looking FROM, relative to the globe centre.
-    // This is the direction we want the state's surface point to face.
-    const camDir = camera.position.clone().sub(controls.target).normalize();
-
-    // Current world direction of this state, including the existing
-    // globeGroup orientation.
-    const local = localUnitVec(v.lat, v.lon);
-    const currentWorldDir = local.clone().applyQuaternion(globeGroup.quaternion);
-
-    // The extra rotation needed: send currentWorldDir → camDir.
-    const delta = new THREE.Quaternion().setFromUnitVectors(currentWorldDir, camDir);
+    // Yaw-then-pitch rotation that lands the country's (lat,lon) point
+    // facing the camera while keeping the world Y axis vertical. This is
+    // roll-free, so the globe's north pole stays "up" after the tween —
+    // a setFromUnitVectors-only fit could roll the polar axis sideways.
+    //
+    // Camera sits roughly on +Z (slightly above the equator); we choose
+    // yaw α = -(lon + 90°) so the country's longitude rotates onto +Z,
+    // and pitch β = lat so its latitude rotates onto the equatorial plane.
+    const yaw = THREE.MathUtils.degToRad(-(v.lon + 90));
+    const pitch = THREE.MathUtils.degToRad(v.lat);
+    const qYaw = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), yaw);
+    const qPitch = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), pitch);
     tweenStartQuat.copy(globeGroup.quaternion);
-    tweenEndQuat.copy(delta).multiply(globeGroup.quaternion);
+    tweenEndQuat.copy(qPitch).multiply(qYaw);
+
+    // Also bring the camera back to its default polar angle so a previous
+    // user-drag doesn't leave the country looking tilted.
+    const camDist = camera.position.length();
+    camera.position.set(0, camDist * 0.13, camDist * 0.99);
+    camera.up.set(0, 1, 0);
+    controls.target.set(0, 0, 0);
+    controls.update();
 
     tweenT0 = performance.now();
     tweenDur = 1100;
