@@ -664,10 +664,10 @@ hr.ornament {
 .globe-legend-item {
   width: 100%;
   display: grid;
-  grid-template-columns: 8px 1fr auto;
-  gap: 8px;
+  grid-template-columns: minmax(48px, auto) 1fr auto;
+  gap: 12px;
   align-items: baseline;
-  padding: 5px 14px 5px 8px;
+  padding: 5px 14px 5px 12px;
   background: transparent;
   border: none;
   border-left: 6px solid var(--state-color, var(--ink));
@@ -1731,9 +1731,10 @@ hr.ornament {
 }
 .hero-image .hero-meta-label { background: var(--accent); color: #ffffff; }
 
-/* Hero title em — the "are no longer there." portion in accent. */
+/* Hero title em — the "are no longer there." portion in accent.
+   Applies to image-hero pages too, where the rest of the title is white
+   over the photo overlay — the em then pops in accent. */
 .hero-title em { color: var(--accent); }
-.hero-image .hero-title em { color: #ffffff; }   /* image-hero pages stay white */
 
 /* "Two ways to use this guidebook" section — full accent treatment. */
 .section-two-ways {
