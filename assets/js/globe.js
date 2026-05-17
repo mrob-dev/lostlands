@@ -38,7 +38,7 @@ if (!container) { /* page does not include the globe */ } else {
     { id: 'confederacy',       vol: 'XVIII', name: 'The Confederate States of America', lat: 37.54, lon: -77.43, color: '#5a3338', years: '1861 – 1865',     href: 'confederacy/index.html'       },
     { id: 'gran-colombia',     vol: 'XIX',   name: 'Gran Colombia',                      lat:  4.71, lon: -74.07, color: '#2671b0', years: '1819 – 1831',     href: 'gran-colombia/index.html'     },
     { id: 'south-vietnam',     vol: 'XX',    name: 'South Vietnam',                      lat: 10.78, lon: 106.70, color: '#f0c040', years: '1955 – 1975',     href: 'south-vietnam/index.html'     },
-    { id: 'republic-of-texas', vol: 'XXI',   name: 'The Republic of Texas',              lat: 30.27, lon: -97.74, color: '#2a4d6e', years: '1836 – 1846',     href: 'republic-of-texas/index.html' },
+    { id: 'tibet',             vol: 'XXI',   name: 'Tibet',                              lat: 29.65, lon:  91.13, color: '#a83b2c', years: '1913 – 1951',     href: 'tibet/index.html'             },
     { id: 'byzantine',         vol: 'XXII',  name: 'The Byzantine Empire',               lat: 41.01, lon:  28.97, color: '#8a3a72', years: '330 – 1453',      href: 'byzantine/index.html'         },
     { id: 'abbasid',           vol: 'XXIII', name: 'The Abbasid Caliphate',              lat: 33.31, lon:  44.36, color: '#1f1f1f', years: '750 – 1258',      href: 'abbasid/index.html'           },
     { id: 'carthage',          vol: 'XXIV',  name: 'The Carthaginian Empire',            lat: 36.85, lon:  10.32, color: '#7a2d18', years: '814 – 146 BC',    href: 'carthage/index.html'          },
@@ -277,13 +277,15 @@ if (!container) { /* page does not include the globe */ } else {
       [14.00, 106.00], [15.00, 107.00],
     ],
 
-    // Republic of Texas (1836–1846), claimed boundaries — extending
-    // far north and west into modern New Mexico, Colorado, Wyoming.
-    'republic-of-texas': [
-      [42.00, -106.50], [42.00, -103.00], [37.00, -103.00], [37.00, -100.00], [36.50, -100.00],
-      [36.50,  -94.00], [33.50,  -94.00], [31.00,  -94.50], [29.50,  -94.00], [28.00,  -97.00],
-      [25.50,  -97.00], [26.00,  -99.00], [29.00, -101.00], [30.00, -103.00], [32.00, -106.50],
-      [35.00, -106.50], [37.00, -106.50],
+    // Tibet (1913–1951) — the Ganden Phodrang's effective administrative
+    // territory: Ü-Tsang plus western Kham west of the Yangtze. Eastern
+    // Kham and Amdo were under Chinese warlord control and are omitted.
+    'tibet': [
+      [35.20, 78.50], [35.80, 80.00], [36.20, 82.50], [36.20, 86.00], [35.50, 89.50],
+      [34.50, 92.50], [33.80, 95.50], [33.00, 98.00], [31.50, 99.50], [30.00, 99.00],
+      [28.80, 98.50], [28.20, 97.50], [27.80, 95.00], [27.50, 92.00], [27.80, 88.50],
+      [28.20, 85.50], [29.00, 81.50], [30.20, 79.50], [31.50, 78.80], [33.00, 78.40],
+      [34.50, 78.50],
     ],
 
     // Byzantine Empire at Justinian's peak (~565 AD) — simplified
