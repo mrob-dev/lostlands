@@ -777,6 +777,95 @@ hr.ornament {
   white-space: nowrap;
 }
 
+/* Pull-quote inserted at the head of a chapter section or between
+   paragraphs — pulled from existing prose or a primary source. */
+.prose .pull-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--ink);
+  border-left: 4px solid var(--ink);
+  padding: 12px 0 12px 24px;
+  margin: 36px 0;
+  max-width: none;
+}
+.prose .pull-quote cite {
+  display: block;
+  margin-top: 12px;
+  font-style: normal;
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Breakout panel — short factual sidebar inside an article, typically
+   a list of key dates / numbers / people. */
+.prose .breakout {
+  background: var(--canvas-alt, #f6f5f3);
+  border: 1px solid var(--rule-soft);
+  border-left: 4px solid var(--ink);
+  padding: 18px 22px;
+  margin: 32px 0;
+  font-family: var(--font-condensed);
+}
+.prose .breakout-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.prose .breakout ul,
+.prose .breakout ol {
+  list-style: none;
+  margin: 0; padding: 0;
+}
+.prose .breakout li {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 4px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.prose .breakout li b {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* Bulleted lists in prose */
+.prose ul.tick {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.prose ul.tick li {
+  position: relative;
+  padding: 8px 0 8px 28px;
+  border-bottom: 1px solid var(--rule-soft);
+  font-family: var(--font-serif);
+  line-height: 1.55;
+}
+.prose ul.tick li:last-child { border-bottom: none; }
+.prose ul.tick li::before {
+  content: "·";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  font-size: 22px;
+  color: var(--ink-soft);
+}
+
 /* Foreword map — territorial map sourced from World History Encyclopedia,
    displayed unmodified per CC BY-NC-ND / CC BY-SA terms. The caption
    carries the required attribution. */
