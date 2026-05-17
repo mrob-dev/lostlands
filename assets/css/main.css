@@ -176,6 +176,8 @@ a:hover { opacity: 0.55; }
   border-left: 1px solid var(--rule-soft);
 }
 .nav-links a:hover { background: var(--ink); color: var(--canvas); opacity: 1; }
+.nav-links a.nav-active { background: var(--accent); color: #ffffff; }
+.nav-links a.nav-active:hover { background: var(--canvas); color: var(--ink); }
 
 .scroll-progress {
   position: fixed; left: 0; top: 0; height: 2px;
@@ -480,9 +482,13 @@ hr.ornament {
   color: var(--ink);
   transition: background 160ms ease, color 160ms ease;
 }
-.card:hover { background: var(--ink); color: var(--canvas); opacity: 1; }
+.card:hover { background: var(--accent); color: #ffffff; opacity: 1; }
 .card:hover .card-num,
-.card:hover .card-desc { color: var(--canvas); }
+.card:hover .card-desc,
+.card:hover .card-title,
+.card:hover .card-title em { color: #ffffff; }
+.card:hover .card-desc,
+.card:hover .card-title em { opacity: 0.92; }
 .card-num {
   font-family: var(--font-condensed);
   font-size: 11px;
@@ -744,7 +750,11 @@ hr.ornament {
   color: var(--ink);
   transition: padding-left 200ms ease, background 200ms ease;
 }
-.toc-link:hover { padding-left: 16px; background: var(--canvas-alt); opacity: 1; }
+.toc-link:hover { padding-left: 16px; background: var(--accent); color: #ffffff; opacity: 1; }
+.toc-link:hover .toc-num,
+.toc-link:hover .toc-title,
+.toc-link:hover .toc-year { color: #ffffff; }
+.toc-link:hover .toc-title small { color: rgba(255,255,255,0.85); }
 .toc-num {
   font-family: var(--font-condensed);
   font-size: 12px;
@@ -1089,25 +1099,28 @@ hr.ornament {
   .chap-sidebar-details { padding: 0; }
   .chap-sidebar summary {
     width: 56px; height: 56px;
-    background: var(--accent);
-    color: #ffffff;
-    border-radius: 8px;
-    border-bottom: none;
+    background: var(--canvas);
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
     padding: 0;
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
     justify-content: center;
     gap: 0;
-    transition: background 160ms ease;
+    transition: background 160ms ease, color 160ms ease;
   }
-  .chap-sidebar summary:hover { background: var(--accent-hover); }
+  .chap-sidebar summary:hover { background: var(--accent); color: #ffffff; }
   .chap-sidebar summary .chap-sidebar-vol,
   .chap-sidebar summary .chap-sidebar-volname { display: none; }
   .chap-sidebar summary::before {
-    content: "≡";
-    font-size: 28px;
-    line-height: 1;
-    font-weight: 400;
+    content: "";
+    width: 26px; height: 26px;
+    background: var(--accent);
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 2 2 L 14 2 L 14 14 L 30 14 L 30 30 L 2 30 Z"/></svg>') center / contain no-repeat;
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 2 2 L 14 2 L 14 14 L 30 14 L 30 30 L 2 30 Z"/></svg>') center / contain no-repeat;
+    transition: background 160ms ease;
   }
+  .chap-sidebar summary:hover::before { background: #ffffff; }
   .chap-sidebar summary::after { display: none; }
 
   .chap-sidebar-details[open] {
@@ -1120,6 +1133,9 @@ hr.ornament {
   }
   .chap-sidebar-details[open] summary {
     width: 100%; height: auto;
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
     border-radius: 10px 10px 0 0;
     padding: 14px 18px;
     box-shadow: none;
@@ -1127,7 +1143,13 @@ hr.ornament {
     gap: 10px;
     border-bottom: 1px solid rgba(255,255,255,0.2);
   }
-  .chap-sidebar-details[open] summary::before { content: "✕"; font-size: 16px; margin-right: 6px; }
+  .chap-sidebar-details[open] summary::before {
+    width: 18px; height: 18px;
+    background: #ffffff;
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M 4 4 L 16 16 M 16 4 L 4 16" stroke="black" stroke-width="2" fill="none"/></svg>') center / contain no-repeat;
+            mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M 4 4 L 16 16 M 16 4 L 4 16" stroke="black" stroke-width="2" fill="none"/></svg>') center / contain no-repeat;
+    margin-right: 6px;
+  }
   .chap-sidebar-details[open] summary .chap-sidebar-vol { display: inline; font-weight: 600; }
   .chap-sidebar-details[open] summary .chap-sidebar-volname { display: inline; opacity: 0.85; }
   .chap-sidebar-details[open] .chap-sidebar-list {
@@ -1253,8 +1275,9 @@ hr.ornament {
   display: block;
   transition: background 160ms ease, color 160ms ease;
 }
-.chap-foot-link:hover { background: var(--ink); color: var(--canvas); opacity: 1; }
-.chap-foot-link:hover small { color: var(--canvas); }
+.chap-foot-link { background: var(--canvas); color: var(--ink); }
+.chap-foot-link:hover { background: var(--accent); color: #ffffff; opacity: 1; }
+.chap-foot-link:hover small { color: rgba(255,255,255,0.75); }
 .chap-foot-link small {
   display: block;
   font-family: var(--font-condensed);
@@ -1672,6 +1695,61 @@ hr.ornament {
   border-bottom: 1px solid var(--ink);
 }
 
+/* End of Chapter pill — sits at the bottom of every chapter body */
+.chap-end-mark {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 6px 14px;
+  font-family: var(--font-condensed);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  margin-top: 12px;
+}
+
+/* Footer Land name highlight */
+.site-foot .vol-land-name {
+  background: var(--accent);
+  color: #ffffff;
+  padding: 3px 10px;
+  margin-left: 4px;
+}
+
+/* Hero meta labels — accent rectangle behind the title word
+   (Volumes / Chapters / Span / Continents). */
+.hero-meta-label {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 2px 8px;
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.hero-image .hero-meta-label { background: var(--accent); color: #ffffff; }
+
+/* Hero title em — the "are no longer there." portion in accent. */
+.hero-title em { color: var(--accent); }
+.hero-image .hero-title em { color: #ffffff; }   /* image-hero pages stay white */
+
+/* "Two ways to use this guidebook" section — full accent treatment. */
+.section-two-ways {
+  background: var(--accent);
+  color: #ffffff;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.section-two-ways .kicker,
+.section-two-ways .section-title,
+.section-two-ways .section-title em,
+.section-two-ways .prose strong,
+.section-two-ways .prose em { color: #ffffff; }
+.section-two-ways .prose p { color: rgba(255,255,255,0.92); }
+.section-two-ways .prose a { color: #ffffff; border-bottom-color: rgba(255,255,255,0.6); }
+
 /* Resume banner on the homepage */
 .resume-banner {
   display: flex;
@@ -1685,7 +1763,12 @@ hr.ornament {
   margin-top: 0;
   transition: background 200ms ease;
 }
-.resume-banner:hover { background: var(--ink-deep); opacity: 1; }
+.resume-banner { background: var(--accent); }
+.resume-banner:hover { background: var(--accent-hover); opacity: 1; }
+.resume-banner-eyebrow { color: rgba(255,255,255,0.7); opacity: 1; }
+.resume-banner-title { color: #ffffff; }
+.resume-banner-title span { color: rgba(255,255,255,0.78); opacity: 1; }
+.resume-banner-arrow { color: #ffffff; }
 .resume-banner-eyebrow {
   font-family: var(--font-condensed);
   font-size: 10px;

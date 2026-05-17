@@ -400,3 +400,25 @@
     });
   });
 })();
+
+/* =====================================================================
+ * Hide the chapter-sidebar / FAB until the reader has scrolled past the
+ * chap-hero header. Avoids the sidebar overlapping the hero's title,
+ * subtitle and metadata.
+ * =================================================================== */
+(function() {
+  const sidebar = document.querySelector('.chap-sidebar');
+  const hero = document.querySelector('.chap-hero');
+  if (!sidebar || !hero) return;
+
+  sidebar.style.transition = 'opacity 220ms ease';
+  function update() {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    const past = heroBottom < 60;
+    sidebar.style.opacity = past ? '1' : '0';
+    sidebar.style.pointerEvents = past ? 'auto' : 'none';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();

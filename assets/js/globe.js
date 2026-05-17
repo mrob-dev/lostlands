@@ -344,8 +344,26 @@ if (!container) { /* page does not include the globe */ } else {
   function resize() {
     const w = container.clientWidth;
     const h = container.clientHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
+    // updateStyle=true (default) so the canvas's CSS dimensions match the
+    // container. Earlier code passed false, which left the canvas's CSS
+    // unset — the canvas then displayed at its (devicePixelRatio-multiplied)
+    // attribute size and overflowed the container, manifesting as the
+    // globe appearing only in one corner on mobile.
+    renderer.setSize(w, h);
+    const aspect = w / h;
+    camera.aspect = aspect;
+    // On portrait viewports (mobile portrait, narrow tablets), the
+    // perspective camera's horizontal FOV is narrower than the vertical
+    // one and the globe sphere (radius 1.4 at distance ~4.6 → apparent
+    // angle ~35.7°) gets clipped or pushed off-centre. Widen the FOV so
+    // the sphere stays comfortably inside the horizontal FOV with margin.
+    const TARGET_HALF_TAN = Math.tan(THREE.MathUtils.degToRad(22)); // 44° horizontal target
+    const BASE_FOV = 40;
+    if (aspect < 1.0) {
+      camera.fov = 2 * THREE.MathUtils.radToDeg(Math.atan(TARGET_HALF_TAN / aspect));
+    } else {
+      camera.fov = BASE_FOV;
+    }
     camera.updateProjectionMatrix();
   }
   resize();
