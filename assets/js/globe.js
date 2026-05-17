@@ -33,7 +33,7 @@ if (!container) { /* page does not include the globe */ } else {
     { id: 'venice',            vol: 'XIII',  name: 'The Republic of Venice',             lat: 45.44, lon:  12.32, color: '#a23b3b', years: '697 – 1797',      href: 'venice/index.html'            },
     { id: 'poland-lithuania',  vol: 'XIV',   name: 'The Polish-Lithuanian Commonwealth', lat: 52.23, lon:  21.01, color: '#c52d2d', years: '1569 – 1795',     href: 'poland-lithuania/index.html'  },
     { id: 'rhodesia',          vol: 'XV',    name: 'Rhodesia',                           lat: -17.83,lon:  31.05, color: '#2d6033', years: '1965 – 1979',     href: 'rhodesia/index.html'          },
-    { id: 'nazi-germany',      vol: 'XVI',   name: 'Nazi Germany',                       lat: 49.45, lon:  11.08, color: '#6e0c0c', years: '1933 – 1945',     href: 'nazi-germany/index.html'      },
+    { id: 'nazi-germany',      vol: 'XVI',   name: 'Nazi Germany',                       lat: 48.14, lon:  11.58, color: '#6e0c0c', years: '1933 – 1945',     href: 'nazi-germany/index.html'      },
     { id: 'holy-roman-empire', vol: 'XVII',  name: 'The Holy Roman Empire',              lat: 48.21, lon:  16.37, color: '#8d4d2c', years: '962 – 1806',      href: 'holy-roman-empire/index.html' },
     { id: 'confederacy',       vol: 'XVIII', name: 'The Confederate States of America', lat: 37.54, lon: -77.43, color: '#5a3338', years: '1861 – 1865',     href: 'confederacy/index.html'       },
     { id: 'gran-colombia',     vol: 'XIX',   name: 'Gran Colombia',                      lat:  4.71, lon: -74.07, color: '#2671b0', years: '1819 – 1831',     href: 'gran-colombia/index.html'     },

@@ -866,6 +866,82 @@ hr.ornament {
   color: var(--ink-soft);
 }
 
+/* Image lightbox — full-screen overlay for clicking on maps and figures.
+   The image opens at fit-to-window; click again to step through 2×, 3×, back
+   to 1×. Drag to pan when zoomed. ESC or background click to close. */
+.foreword-map img.is-clickable,
+.prose figure img.is-clickable { cursor: zoom-in; }
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 14, 0.94);
+  z-index: 100;
+  display: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.lightbox-overlay.is-open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.lightbox-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 40px;
+  box-sizing: border-box;
+  touch-action: pinch-zoom;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transform-origin: center center;
+  transition: transform 180ms ease;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  line-height: 1;
+  background: rgba(0,0,0,0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 22px;
+  cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(0,0,0,0.7); }
+.lightbox-hint {
+  position: absolute;
+  bottom: 16px; left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  pointer-events: none;
+}
+@media (max-width: 720px) {
+  .lightbox-stage { padding: 16px; }
+  .lightbox-hint { font-size: 10px; }
+}
+
 /* Foreword map — territorial map sourced from World History Encyclopedia,
    displayed unmodified per CC BY-NC-ND / CC BY-SA terms. The caption
    carries the required attribution. */

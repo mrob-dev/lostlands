@@ -278,3 +278,125 @@
     }
   }
 })();
+
+/* =====================================================================
+ * Image lightbox — click any .foreword-map img or .prose figure img to
+ * open a full-screen overlay. Click again to toggle zoom between 1×, 2×
+ * and fit-to-window. Drag to pan when zoomed. ESC or click-outside closes.
+ * Touch devices retain the browser's native pinch-zoom inside the overlay.
+ * =================================================================== */
+(function() {
+  const SELECTOR = '.foreword-map img, .prose figure img';
+  const targets = document.querySelectorAll(SELECTOR);
+  if (!targets.length) return;
+
+  // Build overlay once, lazily on first click.
+  let overlay, stage, img, closeBtn;
+  let zoom = 1;
+  let panX = 0, panY = 0;
+  let dragging = false, dragStartX = 0, dragStartY = 0, panStartX = 0, panStartY = 0;
+
+  function ensureOverlay() {
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = `
+      <div class="lightbox-stage">
+        <img class="lightbox-img" alt="" />
+      </div>
+      <button type="button" class="lightbox-close" aria-label="Close">×</button>
+      <p class="lightbox-hint">Click image to zoom · drag to pan · esc to close</p>
+    `;
+    document.body.appendChild(overlay);
+    stage = overlay.querySelector('.lightbox-stage');
+    img = overlay.querySelector('.lightbox-img');
+    closeBtn = overlay.querySelector('.lightbox-close');
+
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) close();
+    });
+    img.addEventListener('click', cycleZoom);
+
+    img.addEventListener('mousedown', (e) => {
+      if (zoom <= 1) return;
+      dragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      panStartX = panX;
+      panStartY = panY;
+      img.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      panX = panStartX + (e.clientX - dragStartX);
+      panY = panStartY + (e.clientY - dragStartY);
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      dragging = false;
+      if (img) img.style.cursor = zoom > 1 ? 'grab' : 'zoom-in';
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === '+' || e.key === '=') { zoom = Math.min(zoom * 1.5, 6); applyTransform(); }
+      else if (e.key === '-') { zoom = Math.max(zoom / 1.5, 1); if (zoom === 1) { panX = panY = 0; } applyTransform(); }
+      else if (e.key === '0') { zoom = 1; panX = panY = 0; applyTransform(); }
+    });
+
+    // Wheel-zoom on desktop.
+    stage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.15 : 1/1.15;
+      zoom = Math.max(1, Math.min(zoom * factor, 6));
+      if (zoom === 1) { panX = panY = 0; }
+      applyTransform();
+    }, { passive: false });
+  }
+
+  function applyTransform() {
+    img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+    img.style.cursor = zoom > 1 ? 'grab' : 'zoom-in';
+  }
+
+  function cycleZoom() {
+    if (dragging) return;
+    if (zoom < 1.5) zoom = 2;
+    else if (zoom < 3) zoom = 3;
+    else { zoom = 1; panX = panY = 0; }
+    applyTransform();
+  }
+
+  function open(src, alt) {
+    ensureOverlay();
+    img.src = src;
+    img.alt = alt || '';
+    zoom = 1; panX = 0; panY = 0;
+    applyTransform();
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    if (!overlay) return;
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTimeout(() => { if (img) img.src = ''; }, 250);
+  }
+
+  targets.forEach((t) => {
+    t.classList.add('is-clickable');
+    t.addEventListener('click', (e) => {
+      // Don't hijack if the image is inside a link.
+      if (t.closest('a')) return;
+      e.preventDefault();
+      open(t.currentSrc || t.src, t.alt);
+    });
+  });
+})();
