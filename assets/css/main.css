@@ -17,6 +17,9 @@
   --hero-overlay:  rgba(0, 0, 0, 0.45);  /* hero image darkening overlay */
   --card-flag-bg:  #efeeec;
   --card-flag-hover-bg: #e6e5e2;
+  --accent:        #4D5093;  /* slate-indigo accent for active states */
+  --accent-soft:   rgba(77, 80, 147, 0.12);
+  --accent-hover:  #3a3d75;
 
   /* — Typography (free Google Fonts substitutes for the spec'd custom faces) —
      NH (Helvetica Neue)       → Inter
@@ -80,6 +83,9 @@
   --hero-overlay:  rgba(0, 0, 0, 0.55);
   --card-flag-bg:  #1f1f1f;
   --card-flag-hover-bg: #2a2a2a;
+  --accent:        #7d80c2;
+  --accent-soft:   rgba(125, 128, 194, 0.16);
+  --accent-hover:  #9a9dd6;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -558,19 +564,12 @@ hr.ornament {
 }
 .globe-canvas:active { cursor: grabbing; }
 
-/* Tablet: shrink the canvas, narrow the legend so the globe doesn't sit
-   under the legend overlay. */
-@media (max-width: 960px) {
-  .globe-canvas { height: 640px; }
-  .globe-key { width: 220px; }
-}
-
-/* Phone: drop the legend out of the absolute overlay entirely so the
-   globe centres in the viewport instead of getting pushed off-screen by
-   a wide sidebar. The legend stacks below as a horizontal scroller. */
-@media (max-width: 720px) {
+/* Tablet and below: drop the legend out of the absolute overlay
+   entirely so the globe centres in the viewport. On any non-desktop
+   width, the legend stacks below the canvas. */
+@media (max-width: 1100px) {
   .globe-wrap { display: flex; flex-direction: column; }
-  .globe-canvas { height: 460px; order: 1; }
+  .globe-canvas { height: 640px; order: 1; }
   .globe-key {
     position: static;
     width: 100%;
@@ -579,6 +578,10 @@ hr.ornament {
     border-top: 1px solid var(--ink);
     order: 2;
   }
+  .globe-key-list { max-height: 280px; }
+}
+@media (max-width: 720px) {
+  .globe-canvas { height: 460px; }
   .globe-key-list { max-height: 240px; }
 }
 .globe-tooltip {
@@ -785,7 +788,7 @@ hr.ornament {
   font-size: 22px;
   line-height: 1.35;
   color: var(--ink);
-  border-left: 4px solid var(--ink);
+  border-left: 4px solid var(--accent);
   padding: 12px 0 12px 24px;
   margin: 36px 0;
   max-width: none;
@@ -804,9 +807,9 @@ hr.ornament {
 /* Breakout panel — short factual sidebar inside an article, typically
    a list of key dates / numbers / people. */
 .prose .breakout {
-  background: var(--canvas-alt, #f6f5f3);
+  background: var(--accent-soft);
   border: 1px solid var(--rule-soft);
-  border-left: 4px solid var(--ink);
+  border-left: 4px solid var(--accent);
   padding: 18px 22px;
   margin: 32px 0;
   font-family: var(--font-condensed);
@@ -1030,9 +1033,9 @@ hr.ornament {
   align-items: baseline;
 }
 .chap-sidebar-list a:hover { background: var(--canvas-alt); }
-.chap-sidebar-list a.is-current { background: var(--ink); color: var(--canvas); }
+.chap-sidebar-list a.is-current { background: var(--accent); color: #ffffff; }
 .chap-sidebar-list a.is-current .chap-sidebar-num,
-.chap-sidebar-list a.is-current .chap-sidebar-title { color: var(--canvas); }
+.chap-sidebar-list a.is-current .chap-sidebar-title { color: #ffffff; }
 .chap-sidebar-num {
   font-family: var(--font-display);
   font-size: 12px;
@@ -1066,6 +1069,74 @@ hr.ornament {
   }
   .chap-sidebar summary { pointer-events: none; }
   .chap-sidebar summary::after { display: none; }
+}
+
+/* Tablet/mobile: replace the inline collapsible with a square floating
+   button anchored to the bottom-left of the viewport. The native
+   <details> mechanism handles the open/close state with no JS. */
+@media (max-width: 1199px) {
+  .chap-sidebar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    margin: 0;
+    width: auto;
+    max-width: none;
+    z-index: 50;
+    background: transparent;
+    border: none;
+  }
+  .chap-sidebar-details { padding: 0; }
+  .chap-sidebar summary {
+    width: 56px; height: 56px;
+    background: var(--accent);
+    color: #ffffff;
+    border-radius: 8px;
+    border-bottom: none;
+    padding: 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    justify-content: center;
+    gap: 0;
+    transition: background 160ms ease;
+  }
+  .chap-sidebar summary:hover { background: var(--accent-hover); }
+  .chap-sidebar summary .chap-sidebar-vol,
+  .chap-sidebar summary .chap-sidebar-volname { display: none; }
+  .chap-sidebar summary::before {
+    content: "≡";
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .chap-sidebar summary::after { display: none; }
+
+  .chap-sidebar-details[open] {
+    background: var(--canvas);
+    border: 1px solid var(--ink);
+    border-radius: 10px;
+    width: min(320px, calc(100vw - 40px));
+    box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+    overflow: hidden;
+  }
+  .chap-sidebar-details[open] summary {
+    width: 100%; height: auto;
+    border-radius: 10px 10px 0 0;
+    padding: 14px 18px;
+    box-shadow: none;
+    justify-content: flex-start;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .chap-sidebar-details[open] summary::before { content: "✕"; font-size: 16px; margin-right: 6px; }
+  .chap-sidebar-details[open] summary .chap-sidebar-vol { display: inline; font-weight: 600; }
+  .chap-sidebar-details[open] summary .chap-sidebar-volname { display: inline; opacity: 0.85; }
+  .chap-sidebar-details[open] .chap-sidebar-list {
+    margin: 0;
+    padding: 10px 14px 14px;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: var(--canvas);
+  }
 }
 
 .chap-hero {
