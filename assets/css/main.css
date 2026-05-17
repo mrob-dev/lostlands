@@ -777,6 +777,41 @@ hr.ornament {
   white-space: nowrap;
 }
 
+/* Foreword map — territorial map sourced from World History Encyclopedia,
+   displayed unmodified per CC BY-NC-ND / CC BY-SA terms. The caption
+   carries the required attribution. */
+.foreword-map {
+  margin: 32px 0 8px;
+}
+.foreword-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule-soft);
+}
+.foreword-map figcaption {
+  margin-top: 10px;
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.foreword-map figcaption strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.foreword-map figcaption a {
+  color: var(--ink-soft);
+  border-bottom: 1px dotted var(--ink-soft);
+}
+.foreword-map figcaption a:hover { color: var(--ink); }
+
 /* =====  Chapter page  ===== */
 
 /* Chapter sidebar — a fixed-position table-of-contents on desktop,
