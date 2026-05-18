@@ -287,7 +287,6 @@ a:hover { opacity: 0.55; }
 }
 .hero-image .hero-eyebrow,
 .hero-image .hero-title,
-.hero-image .hero-title em,
 .hero-image .hero-sub,
 .hero-image .hero-meta,
 .hero-image .hero-meta > div,
@@ -295,6 +294,7 @@ a:hover { opacity: 0.55; }
 .hero-image .hero-scroll {
   color: #ffffff;
 }
+.hero-image .hero-title em { color: var(--accent); }
 .hero-image .hero-eyebrow,
 .hero-image .hero-sub,
 .hero-image .hero-meta,
