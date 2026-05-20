@@ -262,9 +262,9 @@ a:hover { opacity: 0.55; }
   text-transform: uppercase;
 }
 
-/* Hero with image variant — text sits over the image in white with a
-   dark gradient wash for legibility. Same treatment in both light and
-   dark themes, so the editorial cover-image effect is consistent. */
+/* Hero with image variant — text (including the title em) sits over the
+   image in white with a dark gradient wash for legibility. Same treatment
+   in both light and dark themes, so the cover-image effect is consistent. */
 .hero-image {
   position: relative;
   overflow: hidden;
@@ -294,7 +294,7 @@ a:hover { opacity: 0.55; }
 .hero-image .hero-scroll {
   color: #ffffff;
 }
-.hero-image .hero-title em { color: var(--accent); }
+.hero-image .hero-title em { color: #ffffff; }
 .hero-image .hero-eyebrow,
 .hero-image .hero-sub,
 .hero-image .hero-meta,
@@ -1731,9 +1731,9 @@ hr.ornament {
 }
 .hero-image .hero-meta-label { background: var(--accent); color: #ffffff; }
 
-/* Hero title em — the "are no longer there." portion in accent.
-   Applies to image-hero pages too, where the rest of the title is white
-   over the photo overlay — the em then pops in accent. */
+/* Hero title em — accent on plain (non-image) hero pages such as the
+   atlas/timeline/search utility headers. On image-hero pages (front page
+   and the volumes) the em is white instead — see the .hero-image rule above. */
 .hero-title em { color: var(--accent); }
 
 /* "Two ways to use this guidebook" section — full accent treatment. */
