@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="" />
   <link rel="stylesheet" href="assets/css/main.css" />
+  <meta name="lostlands-admin-source" content="atlas.html" />
   <style>
     /* Atlas-page styles */
     .atlas-wrap {
@@ -219,9 +220,9 @@
 
   <header class="hero" style="padding-top: 100px; min-height: auto;">
     <div>
-      <p class="hero-eyebrow">All 226 stops &nbsp;·&nbsp; Twelve volumes</p>
-      <h1 class="hero-title">The Atlas Map.<br/><em>Every destination, plotted.</em></h1>
-      <p class="hero-sub">A geographic index of the entire travel-guide layer of the Lost Lands library. Two hundred and twenty-six destinations across fifty-six countries, every one of them linked to its chapter and travel notes. Filter by volume; click a marker to open its entry.</p>
+      <p class="hero-eyebrow" data-edit-id="b2c30268">All 226 stops &nbsp;·&nbsp; Twelve volumes</p>
+      <h1 class="hero-title" data-edit-id="406d1c1c">The Atlas Map.<br/><em>Every destination, plotted.</em></h1>
+      <p class="hero-sub" data-edit-id="279a5729">A geographic index of the entire travel-guide layer of the Lost Lands library. Two hundred and twenty-six destinations across fifty-six countries, every one of them linked to its chapter and travel notes. Filter by volume; click a marker to open its entry.</p>
     </div>
   </header>
 
@@ -239,12 +240,12 @@
   <hr class="ornament" />
 
   <section class="section-narrow">
-    <p class="kicker">A note on the markers</p>
-    <h2 class="section-title">Use as<br/><em>a planning tool.</em></h2>
+    <p class="kicker" data-edit-id="8c1418fd">A note on the markers</p>
+    <h2 class="section-title" data-edit-id="a03dea87">Use as<br/><em>a planning tool.</em></h2>
     <div class="prose">
-      <p>The map is intended as a planning aid. Each marker corresponds to a "stop" in one of the twelve volumes' travel sections, and clicking through takes you to that volume's travel page, where the full description and practical notes live. The travel routes themselves — three or so per volume — are described in each volume's <em>Routes</em> page.</p>
-      <p>The geographic coverage is wider than any single volume implies: the Ottoman and Roman travel sections each have stops in eight countries; the Persia volume has stops in five (Iran, Uzbekistan, Afghanistan, India, the United States); the Soviet volume has stops in nine. The Lost Lands library is not, even by its travel layer, an Eurocentric project.</p>
-      <p>Coordinates are approximate (~5 km accuracy is sufficient at this scale). Where a stop describes a region rather than a point — the Matadi-Kinshasa railway, Hadrian's Wall, the southern Inca Qhapaq Ñan — the marker is placed at a representative midpoint.</p>
+      <p data-edit-id="79d7c351">The map is intended as a planning aid. Each marker corresponds to a "stop" in one of the twelve volumes' travel sections, and clicking through takes you to that volume's travel page, where the full description and practical notes live. The travel routes themselves — three or so per volume — are described in each volume's <em>Routes</em> page.</p>
+      <p data-edit-id="68537019">The geographic coverage is wider than any single volume implies: the Ottoman and Roman travel sections each have stops in eight countries; the Persia volume has stops in five (Iran, Uzbekistan, Afghanistan, India, the United States); the Soviet volume has stops in nine. The Lost Lands library is not, even by its travel layer, an Eurocentric project.</p>
+      <p data-edit-id="1527121f">Coordinates are approximate (~5 km accuracy is sufficient at this scale). Where a stop describes a region rather than a point — the Matadi-Kinshasa railway, Hadrian's Wall, the southern Inca Qhapaq Ñan — the marker is placed at a representative midpoint.</p>
     </div>
   </section>
 
@@ -254,6 +255,7 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/admin.js" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
   <script>
