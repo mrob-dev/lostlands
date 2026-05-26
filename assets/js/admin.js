@@ -41,17 +41,6 @@
     mountToolbar();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  // Re-init if the operator pastes a token via /admin and returns.
-  window.addEventListener('storage', (e) => {
-    if (e.key === LS_KEYS.token && e.newValue && !window.__lostlandsAdminMounted) init();
-  });
-
   // -- styles ---------------------------------------------------------------
 
   function injectStyles() {
@@ -391,4 +380,19 @@
     clearTimeout(statusTimer);
     statusTimer = setTimeout(() => { el.remove(); }, kind === 'err' ? 8000 : 4500);
   }
+
+  // -- bootstrap ------------------------------------------------------------
+  // Kept at the bottom of the IIFE so all `let`/`const` declarations above
+  // are out of the temporal dead zone before init() runs.
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Re-init if the operator pastes a token via /admin and returns.
+  window.addEventListener('storage', (e) => {
+    if (e.key === LS_KEYS.token && e.newValue && !window.__lostlandsAdminMounted) init();
+  });
 })();
